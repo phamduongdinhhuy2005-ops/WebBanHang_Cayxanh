@@ -167,6 +167,16 @@ html, body {
   max-height: var(--product-image-height); 
 }
 
+/* Ensure low stock badge stays above overlay */
+.product-card-hover .badge {
+  z-index: 15 !important;
+  position: relative;
+}
+
+.product-card-hover .product-overlay {
+  z-index: 10;
+}
+
 /* Card body improvements for readability and preventing text clipping */
 .product-card .card-body {
   padding: 1rem !important;

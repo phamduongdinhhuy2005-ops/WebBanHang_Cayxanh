@@ -350,7 +350,7 @@ namespace WebBanHang.Controllers
             ViewData["TotalProducts"] = totalProducts;
 
             var products = await query
-                .OrderByDescending(p => p.CreatedAt)
+                .OrderBy(p => p.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

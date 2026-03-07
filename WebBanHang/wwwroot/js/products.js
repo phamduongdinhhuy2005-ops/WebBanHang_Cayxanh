@@ -50,9 +50,9 @@ function formatPrice(value) {
 
 window.productsLoading = false;
 window.productsLoadError = null;
-let currentPage = 1, currentPageSize = 9, currentCategory = 'all', currentSort = '', currentSearch = '';
+let currentPage = 1, currentPageSize = 8, currentCategory = 'all', currentSort = '', currentSearch = '';
 
-async function loadProducts(page = 1, pageSize = 9, category = 'all', sort = '', search = '') {
+async function loadProducts(page = 1, pageSize = 8, category = 'all', sort = '', search = '') {
   try {
     window.productsLoading = true;
     window.productsLoadError = null;
@@ -69,13 +69,11 @@ async function loadProducts(page = 1, pageSize = 9, category = 'all', sort = '',
     if (!resp.ok) {
       const txt = await resp.text().catch(()=>'');
       window.productsLoadError = `API ${resp.status}: ${txt}`;
-      console.error('Failed to load products', resp.status, txt);
       renderProducts();
       return;
     }
 
     const data = await resp.json();
-    console.log('Products API response', data);
     products = data.items || data || [];
 
     const countEl = document.getElementById('productsCount');
@@ -88,7 +86,6 @@ async function loadProducts(page = 1, pageSize = 9, category = 'all', sort = '',
     renderPagination(data.total || products.length, data.page || page, data.pageSize || pageSize);
   } catch (err) {
     window.productsLoadError = err && err.message ? err.message : String(err);
-    console.error('Error loading products', err);
     try { renderProducts(); } catch(e){}
   } finally {
     window.productsLoading = false;
@@ -128,7 +125,7 @@ function renderProducts() {
       badges += `<div class="position-absolute top-0 end-0 m-2"><span class="badge bg-success shadow-sm px-2 py-1"><i class="fas fa-star me-1"></i>NEW</span></div>`;
     }
     if (isLowStock) {
-      badges += `<div class="position-absolute bottom-0 start-0 m-2"><span class="badge bg-warning text-dark shadow-sm px-2 py-1"><i class="fas fa-fire me-1"></i>Sắp hết</span></div>`;
+      badges += `<div class="position-absolute bottom-0 end-0 m-2"><span class="badge bg-warning text-dark shadow-sm px-2 py-1"><i class="fas fa-fire me-1"></i>Sắp hết</span></div>`;
     }
 
     const priceHTML = isDiscount 
@@ -143,16 +140,20 @@ function renderProducts() {
 
     const disabled = (stock === 0) ? 'disabled' : '';
 
+    // Ẩn nút "Thêm vào giỏ" cho admin
+    const adminHidden = isAdmin() ? 'style="display:none;"' : '';
+    const overlayHidden = isAdmin() ? 'style="display:none !important;"' : '';
+
     const card = `
       <div class="col product-card" data-product-id="${p.id}" data-category="${p.category}">
-        <div class="card h-100 border-0 shadow-sm product-card-hover position-relative overflow-hidden">
+        <div class="card h-100 border-0 shadow-sm product-card-hover product-card-clickable position-relative overflow-hidden" style="cursor: pointer;">
           ${badges}
           <div class="product-image-wrapper position-relative overflow-hidden">
             <div class="ratio ratio-4x3">
               <img src="${p.image}" class="card-img-top product-img" alt="${escapeHtml(p.name)}" loading="lazy" decoding="async">
             </div>
-            <div class="product-overlay position-absolute w-100 h-100 top-0 start-0 d-flex align-items-center justify-content-center">
-              <button type="button" class="btn btn-light btn-lg rounded-circle shadow" onclick="addToCart(${p.id})" aria-label="Thêm vào giỏ hàng" ${disabled}>
+            <div class="product-overlay position-absolute w-100 h-100 top-0 start-0 d-flex align-items-center justify-content-center" ${overlayHidden}>
+              <button type="button" class="btn btn-light btn-lg rounded-circle shadow btn-add-to-cart-overlay" onclick="event.stopPropagation(); addToCart(${p.id})" aria-label="Thêm vào giỏ hàng" ${disabled}>
                 <i class="fas fa-cart-plus"></i>
               </button>
             </div>
@@ -165,7 +166,7 @@ function renderProducts() {
                 ${priceHTML}
                 ${stockBadge}
               </div>
-              <button type="button" class="btn btn-primary w-100 btn-sm shadow-sm" onclick="addToCart(${p.id})" ${disabled}>
+              <button type="button" class="btn btn-primary w-100 btn-sm shadow-sm btn-add-to-cart" onclick="event.stopPropagation(); addToCart(${p.id})" ${disabled} ${adminHidden}>
                 <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ
               </button>
             </div>
@@ -175,9 +176,179 @@ function renderProducts() {
 
     container.insertAdjacentHTML('beforeend', card);
   }
+
+  // Thêm click handler cho các product card
+  attachProductCardClickHandlers();
+}
+
+// Function to attach click handlers to product cards
+function attachProductCardClickHandlers() {
+  const productCards = document.querySelectorAll('.product-card-clickable');
+  productCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Không mở modal nếu click vào nút thêm vào giỏ hàng
+      if (e.target.closest('.btn-add-to-cart') || e.target.closest('.btn-add-to-cart-overlay')) {
+        return;
+      }
+      const productId = parseInt(this.closest('.product-card').getAttribute('data-product-id'));
+      if (!isNaN(productId)) {
+        showProductDetailModal(productId);
+      }
+    });
+  });
+}
+
+// Function to check if user is admin
+function isAdmin() {
+  return window.userRole && window.userRole.toLowerCase() === 'admin';
+}
+
+// Function to show product detail modal
+function showProductDetailModal(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  // Set product name
+  document.getElementById('modalProductName').textContent = product.name || '';
+
+  // Set product image
+  const imgEl = document.getElementById('modalProductImage');
+  imgEl.src = product.image || '';
+  imgEl.alt = product.name || '';
+
+  // Set badges
+  const badgesContainer = document.getElementById('modalProductBadges');
+  badgesContainer.innerHTML = '';
+
+  const stock = product.stock ?? product.StockQuantity ?? 0;
+  const isNew = product.createdAt ? (new Date() - new Date(product.createdAt)) < (7 * 24 * 60 * 60 * 1000) : false;
+
+  if (product.discount && product.discount > 0) {
+    badgesContainer.innerHTML += `<span class="badge bg-danger shadow-sm px-3 py-2 mb-1 d-block">${product.discount}% OFF</span>`;
+  }
+  if (isNew) {
+    badgesContainer.innerHTML += `<span class="badge bg-success shadow-sm px-2 py-1 mb-1 d-block"><i class="fas fa-star me-1"></i>NEW</span>`;
+  }
+
+  // Set prices
+  const originalPriceEl = document.getElementById('modalOriginalPrice');
+  const currentPriceEl = document.getElementById('modalCurrentPrice');
+  const discountBadgeEl = document.getElementById('modalDiscountBadge');
+
+  if (product.originalPrice && product.discount) {
+    originalPriceEl.textContent = product.originalPrice;
+    originalPriceEl.style.display = 'inline';
+    currentPriceEl.textContent = product.price;
+    currentPriceEl.classList.add('text-danger');
+    currentPriceEl.classList.remove('text-primary');
+    discountBadgeEl.textContent = `-${product.discount}%`;
+    discountBadgeEl.style.display = 'inline-block';
+  } else {
+    originalPriceEl.style.display = 'none';
+    currentPriceEl.textContent = product.price;
+    currentPriceEl.classList.add('text-primary');
+    currentPriceEl.classList.remove('text-danger');
+    discountBadgeEl.style.display = 'none';
+  }
+
+  // Set stock status
+  const stockStatusEl = document.getElementById('modalStockStatus');
+  if (stock === 0) {
+    stockStatusEl.textContent = 'Hết hàng';
+    stockStatusEl.className = 'badge bg-secondary';
+  } else if (stock < 5) {
+    stockStatusEl.textContent = `Còn ${stock} sản phẩm`;
+    stockStatusEl.className = 'badge bg-warning text-dark';
+  } else if (stock < 10) {
+    stockStatusEl.textContent = `Còn ${stock} sản phẩm`;
+    stockStatusEl.className = 'badge bg-info';
+  } else {
+    stockStatusEl.textContent = `Còn ${stock} sản phẩm`;
+    stockStatusEl.className = 'badge bg-success';
+  }
+
+  // Set description
+  document.getElementById('modalProductDescription').textContent = product.desc || product.description || 'Chưa có mô tả';
+
+  // Set long description
+  const longDescSection = document.getElementById('modalLongDescriptionSection');
+  const longDescEl = document.getElementById('modalProductLongDescription');
+  if (product.longDescription || product.longDesc) {
+    longDescEl.textContent = product.longDescription || product.longDesc;
+    longDescSection.style.display = 'block';
+  } else {
+    longDescSection.style.display = 'none';
+  }
+
+  // Set specifications
+  const specsSection = document.getElementById('modalSpecificationsSection');
+  const specsEl = document.getElementById('modalProductSpecifications');
+  if (product.specifications || product.specs) {
+    const specs = product.specifications || product.specs;
+    if (typeof specs === 'string') {
+      // If specs is a string, try to format it nicely
+      const lines = specs.split('\n').filter(line => line.trim());
+      specsEl.innerHTML = '<ul class="mb-0">' + lines.map(line => `<li>${escapeHtml(line)}</li>`).join('') + '</ul>';
+    } else if (typeof specs === 'object') {
+      // If specs is an object, display as key-value pairs
+      specsEl.innerHTML = '<ul class="mb-0">' + Object.entries(specs).map(([key, value]) => `<li><strong>${escapeHtml(key)}:</strong> ${escapeHtml(value)}</li>`).join('') + '</ul>';
+    } else {
+      specsEl.textContent = String(specs);
+    }
+    specsSection.style.display = 'block';
+  } else {
+    specsSection.style.display = 'none';
+  }
+
+  // Set add to cart button state - Ẩn với admin
+  const addToCartBtn = document.getElementById('modalAddToCartBtn');
+  addToCartBtn.setAttribute('data-product-id', productId);
+
+  // Kiểm tra admin - ẩn nút thêm vào giỏ
+  if (isAdmin()) {
+    addToCartBtn.style.display = 'none';
+  } else {
+    addToCartBtn.style.display = 'inline-block';
+    if (stock === 0) {
+      addToCartBtn.disabled = true;
+      addToCartBtn.innerHTML = '<i class="fas fa-ban me-2"></i>Hết hàng';
+    } else {
+      addToCartBtn.disabled = false;
+      addToCartBtn.innerHTML = '<i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng';
+    }
+  }
+
+  // Show modal
+  const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+  modal.show();
+}
+
+// Function to add to cart from modal
+function addToCartFromModal() {
+  // Chặn admin thêm vào giỏ
+  if (isAdmin()) {
+    if (window.siteEnhancements && window.siteEnhancements.showNotification) {
+      window.siteEnhancements.showNotification('Tài khoản Admin không thể thêm sản phẩm vào giỏ hàng', 'warning');
+    }
+    return;
+  }
+
+  const addToCartBtn = document.getElementById('modalAddToCartBtn');
+  const productId = parseInt(addToCartBtn.getAttribute('data-product-id'));
+  if (!isNaN(productId)) {
+    addToCart(productId);
+  }
 }
 
 function addToCart(productId) {
+  // Chặn admin thêm vào giỏ
+  if (isAdmin()) {
+    if (window.siteEnhancements && window.siteEnhancements.showNotification) {
+      window.siteEnhancements.showNotification('Tài khoản Admin không thể thêm sản phẩm vào giỏ hàng', 'warning');
+    }
+    return;
+  }
+
   const prod = (products || []).find(p => p.id === productId);
   if (!prod) return;
   const stock = prod.stock ?? prod.StockQuantity ?? 0;
@@ -238,7 +409,6 @@ function renderCart() {
   if (validCart.length !== cart.length) {
     cart = validCart;
     localStorage.setItem('cart', JSON.stringify(cart));
-    console.warn('[cart] Removed', cart.length - validCart.length, 'invalid items from cart');
   }
 
   if (cart.length === 0) { container.innerHTML = ''; if (emptyMsg) emptyMsg.style.display = 'block'; if (totalEl) totalEl.textContent = formatPrice(0); updateCartBadge(); return; }
@@ -406,3 +576,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Restore cart from server if authenticated
   if (window.isAuthenticated) (async ()=>{ try { const resp = await fetch('/api/cart/load'); if (resp.ok) { const json = await resp.json(); if (json && json.cartJson) { const serverCart = JSON.parse(json.cartJson || '[]'); const local = JSON.parse(localStorage.getItem('cart')||'[]'); if ((!local || local.length === 0) && serverCart && serverCart.length>0) { localStorage.setItem('cart', JSON.stringify(serverCart)); cart = serverCart; updateCartBadge(); renderCart(); } } } }catch(e){} })();
 });
+
+// Expose functions to global scope
+window.showProductDetailModal = showProductDetailModal;
+window.addToCartFromModal = addToCartFromModal;

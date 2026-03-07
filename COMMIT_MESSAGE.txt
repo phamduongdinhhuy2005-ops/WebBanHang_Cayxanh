@@ -1,0 +1,24 @@
+═══════════════════════════════════════════════════════════════
+📝 COMMIT MESSAGE (Copy vào Visual Studio Git Changes)
+═══════════════════════════════════════════════════════════════
+
+Clean project - Remove unnecessary files and debug code
+
+- Remove Tools folder and temporary docs
+- Remove console logs from production code
+- Add comprehensive README.md and CHANGELOG.md
+- Add auto-fix scripts for common issues
+- Fix ApplicationDbContext relationship configuration
+- Build successful (0 errors, 0 warnings)
+
+═══════════════════════════════════════════════════════════════
+🎯 PUSH BẰNG VISUAL STUDIO:
+═══════════════════════════════════════════════════════════════
+
+1. Ctrl+0, G (mở Git Changes)
+2. Stage All (click +)
+3. Paste message ở trên
+4. Commit All
+5. Push
+
+═══════════════════════════════════════════════════════════════

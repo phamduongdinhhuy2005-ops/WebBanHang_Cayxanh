@@ -42,10 +42,10 @@ namespace WebBanHang.Data
                 entity.Property(e => e.Status).HasMaxLength(50).HasDefaultValue("Pending");
                 entity.Property(e => e.OrderDate).HasDefaultValueSql("GETDATE()");
 
-                // Quan hệ với Users
-                entity.HasOne<UserAccount>()
+                // Quan hệ với Users - SỬ DỤNG navigation property từ Order.User
+                entity.HasOne(o => o.User)
                     .WithMany()
-                    .HasForeignKey(e => e.UserId)
+                    .HasForeignKey(o => o.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -57,11 +57,17 @@ namespace WebBanHang.Data
                 entity.Property(e => e.ProductPrice).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.Subtotal).HasColumnType("decimal(18,2)");
 
-                // Quan hệ với Orders
-                entity.HasOne<Order>()
-                    .WithMany()
-                    .HasForeignKey(e => e.OrderId)
+                // Quan hệ với Orders - SỬ DỤNG navigation property từ OrderItem.Order
+                entity.HasOne(oi => oi.Order)
+                    .WithMany(o => o.OrderItems)
+                    .HasForeignKey(oi => oi.OrderId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                // Quan hệ với Products - SỬ DỤNG navigation property từ OrderItem.Product
+                entity.HasOne(oi => oi.Product)
+                    .WithMany()
+                    .HasForeignKey(oi => oi.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

@@ -74,7 +74,7 @@
 <!-- Products Section -->
 <section class="py-3 bg-light">
     <div class="container-xxl">
-        <!-- Compact Toolbar -->
+        <!-- Toolbar với Sort, Page Size và Product Count -->
         <div class="row align-items-center mb-3 g-2">
             <div class="col-auto">
                 <small class="text-muted me-1">Hiện có</small>
@@ -82,26 +82,26 @@
             </div>
 
             <div class="col-auto ms-auto">
-                <div class="d-flex gap-2 flex-wrap">
-                    <!-- Sort Dropdown -->
-                    <select id="sortSelect" class="form-select form-select-sm shadow-sm" style="min-width: 160px;">
-                        <option value="">Sắp xếp mặc định</option>
-                        <option value="price_asc">Giá: Thấp → Cao</option>
-                        <option value="price_desc">Giá: Cao → Thấp</option>
-                        <option value="name_asc">Tên: A → Z</option>
-                        <option value="name_desc">Tên: Z → A</option>
-                        <option value="newest">Mới nhất</option>
-                    </select>
+                <!-- Sort Dropdown -->
+                <select id="sortSelect" class="form-select form-select-sm shadow-sm" style="min-width: 160px;">
+                    <option value="">Sắp xếp mặc định</option>
+                    <option value="price_asc">Giá: Thấp → Cao</option>
+                    <option value="price_desc">Giá: Cao → Thấp</option>
+                    <option value="name_asc">Tên: A → Z</option>
+                    <option value="name_desc">Tên: Z → A</option>
+                    <option value="newest">Mới nhất</option>
+                </select>
+            </div>
 
-                    <!-- Items Per Page -->
-                    <select id="pageSizeSelect" class="form-select form-select-sm shadow-sm" style="min-width: 100px;">
-                        <option value="9" selected>9 / trang</option>
-                        <option value="12">12 / trang</option>
-                        <option value="15">15 / trang</option>
-                        <option value="24">24 / trang</option>
-                        <option value="0">Tất cả</option>
-                    </select>
-                </div>
+            <div class="col-auto">
+                <!-- Items Per Page -->
+                <select id="pageSizeSelect" class="form-select form-select-sm shadow-sm" style="min-width: 100px;">
+                    <option value="8" selected>8 / trang</option>
+                    <option value="12">12 / trang</option>
+                    <option value="16">16 / trang</option>
+                    <option value="24">24 / trang</option>
+                    <option value="0">Tất cả</option>
+                </select>
             </div>
         </div>
 
@@ -116,32 +116,90 @@
             </div>
         </div>
 
-        <!-- Pagination -->
-        <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
-    </div>
-</section>
-
-<!-- Compact Promotional Footer -->
-<section class="py-3 bg-dark text-white">
-    <div class="container-xxl">
-        <div class="row align-items-center g-2">
-            <div class="col-md-7 text-center text-md-start">
-                <h5 class="fw-bold mb-1 fs-6">
-                    <i class="fas fa-gifts text-warning me-2"></i>Đăng ký nhận ưu đãi đặc biệt
-                </h5>
-                <p class="mb-md-0 text-white-50 small">Nhận thông tin về sản phẩm mới và khuyến mãi hấp dẫn</p>
-            </div>
-            <div class="col-md-5 mt-2 mt-md-0">
-                <div class="input-group input-group-sm shadow">
-                    <input type="email" class="form-control" placeholder="Email của bạn...">
-                    <button class="btn btn-warning fw-semibold" type="button">
-                        <i class="fas fa-paper-plane me-1"></i>Đăng ký
-                    </button>
-                </div>
-            </div>
+        <!-- Pagination - Aligned to right -->
+        <div class="d-flex justify-content-end mt-3 w-100">
+            <div id="paginationContainer" class="ms-auto"></div>
         </div>
     </div>
 </section>
+
+<!-- Product Detail Modal -->
+<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white border-0">
+                <h5 class="modal-title fw-bold" id="productDetailModalLabel">
+                    <i class="fas fa-box-open me-2"></i>Chi tiết sản phẩm
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body p-3">
+                <!-- Product Name -->
+                <h4 id="modalProductName" class="fw-bold text-dark mb-3 text-center"></h4>
+
+                <div class="row g-3">
+                    <!-- Product Info - Left Side -->
+                    <div class="col-md-7 order-md-1">
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <h6 class="fw-bold text-dark mb-2 pb-1 border-bottom border-primary">
+                                <i class="fas fa-info-circle me-2 text-primary"></i>Mô tả sản phẩm
+                            </h6>
+                            <p id="modalProductDescription" class="text-muted mb-0 small" style="line-height: 1.6;"></p>
+                        </div>
+
+                        <!-- Long Description -->
+                        <div id="modalLongDescriptionSection" class="mb-3">
+                            <h6 class="fw-bold text-dark mb-2 pb-1 border-bottom border-primary">
+                                <i class="fas fa-align-left me-2 text-primary"></i>Mô tả chi tiết
+                            </h6>
+                            <p id="modalProductLongDescription" class="text-muted mb-0 small" style="line-height: 1.6;"></p>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div id="modalSpecificationsSection" class="mb-2">
+                            <h6 class="fw-bold text-dark mb-2 pb-1 border-bottom border-primary">
+                                <i class="fas fa-list-ul me-2 text-primary"></i>Thông số kỹ thuật
+                            </h6>
+                            <div id="modalProductSpecifications" class="text-muted small"></div>
+                        </div>
+                    </div>
+
+                    <!-- Product Image - Right Side -->
+                    <div class="col-md-5 order-md-2">
+                        <div class="position-relative">
+                            <img id="modalProductImage" src="" alt="" class="img-fluid rounded shadow-sm w-100" style="max-height: 350px; object-fit: contain; background: #f8f9fa;">
+                            <div id="modalProductBadges" class="position-absolute top-0 start-0 m-2"></div>
+                        </div>
+
+                        <!-- Price Section - Below Image -->
+                        <div class="mt-3 p-2 bg-light rounded shadow-sm">
+                            <div id="modalProductPrices" class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+                                <span id="modalOriginalPrice" class="text-muted text-decoration-line-through fs-6"></span>
+                                <span id="modalCurrentPrice" class="text-danger fw-bold fs-4"></span>
+                                <span id="modalDiscountBadge" class="badge bg-danger px-2 py-1"></span>
+                            </div>
+                        </div>
+
+                        <!-- Stock Status - Below Price -->
+                        <div class="mt-2 text-center">
+                            <span class="text-muted me-2 small">Tình trạng:</span>
+                            <span id="modalStockStatus" class="badge"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-light justify-content-between py-2">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Đóng
+                </button>
+                <button type="button" id="modalAddToCartBtn" class="btn btn-success px-4 py-2 fw-bold shadow-sm" onclick="addToCartFromModal()">
+                    <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/product-api.js" asp-append-version="true"></script>

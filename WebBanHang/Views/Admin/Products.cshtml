@@ -62,16 +62,16 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
                         <tr>
-                            <th style="width: 80px;">Hình ảnh</th>
-                            <th>ID</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Giá</th>
-                            <th>Danh mục</th>
-                            <th>Tồn kho</th>
-                            <th class="text-end">Thao tác</th>
+                            <th style="width: 80px; white-space: nowrap;">Hình ảnh</th>
+                            <th style="width: 50px; white-space: nowrap;">ID</th>
+                            <th style="min-width: 250px;">Tên sản phẩm</th>
+                            <th style="width: 150px; white-space: nowrap;">Giá</th>
+                            <th style="width: 120px; white-space: nowrap;">Danh mục</th>
+                            <th style="width: 100px; white-space: nowrap; text-align: center;">Tồn kho</th>
+                            <th style="width: 180px; white-space: nowrap; text-align: right;">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,7 +114,7 @@
                                         <span class="badge bg-danger">Khuyến mãi</span>
                                     }
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     @if (product.StockQuantity == 0)
                                     {
                                         <span class="badge bg-secondary">Hết hàng</span>
@@ -128,7 +128,7 @@
                                         <span class="badge bg-success">@product.StockQuantity</span>
                                     }
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end" style="white-space: nowrap;">
                                     <a asp-action="EditProduct" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">
                                         <i class="fas fa-edit"></i> Sửa
                                     </a>
