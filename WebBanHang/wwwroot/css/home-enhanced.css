@@ -1,0 +1,252 @@
+﻿/* ===== Enhanced Home Page Styles ===== */
+
+/* Hero section animations (minimal, Bootstrap-aligned) */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.hero-decoration {
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: var(--highlight-bg);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-section .display-4,
+.hero-section .lead {
+  color: var(--color-primary);
+}
+
+.hero-section .display-4 {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.hero-section .lead {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+.animate-fade-in-delay {
+  animation: fadeIn 1.2s ease-in;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Feature cards with hover effects */
+.feature-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.feature-card.animate-in {
+  animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(63, 114, 175, 0.25) !important;
+}
+
+.feature-icon {
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon i {
+  transform: scale(1.2) rotateY(360deg);
+  transition: transform 0.6s ease;
+}
+
+.feature-badge {
+  margin-top: 1rem;
+}
+
+/* Category cards with overlay effect */
+.category-card {
+  transition: all 0.3s ease;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.category-card.animate-in {
+  animation: slideUp 0.6s ease forwards;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3) !important;
+}
+
+.category-card img {
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-card .card-img-overlay {
+  transition: background 0.3s ease;
+}
+
+.category-card:hover .card-img-overlay {
+  background: linear-gradient(to top, rgba(63, 114, 175, 0.85), transparent) !important;
+}
+
+/* Testimonial cards */
+.testimonial-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--color-primary) !important;
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.testimonial-card.animate-in {
+  animation: slideRight 0.6s ease forwards;
+}
+
+@keyframes slideRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.testimonial-card:hover {
+  border-left-color: var(--color-surface) !important;
+  box-shadow: 0 10px 30px rgba(63, 114, 175, 0.2) !important;
+}
+
+/* Pulse animation for cart icon */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.fa-shopping-cart.pulse {
+  animation: pulse 0.5s ease;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading animation for images */
+.card img {
+  transition: opacity 0.3s ease;
+}
+
+.card img:not([src]) {
+  opacity: 0;
+}
+
+/* Enhanced button hover */
+.btn-light:hover {
+  background: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Unified hero button design */
+.hero-section .btn {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background: var(--highlight-bg);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.hero-section .btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(63, 114, 175, 0.35);
+}
+
+.hero-section .btn:first-of-type {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.hero-section .btn:first-of-type:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 8px 24px rgba(63, 114, 175, 0.4);
+}
+
+/* Star rating hover effect */
+.text-warning {
+  transition: color 0.3s ease, filter 0.3s ease, letter-spacing 0.3s ease;
+  display: inline-block;
+  color: #ffc107;
+}
+
+.testimonial-card:hover .text-warning {
+  color: #ffb300;
+  filter: drop-shadow(0 2px 8px rgba(255, 193, 7, 0.6));
+  letter-spacing: 0.08em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 300px;
+  }
+  
+  .hero-decoration {
+    width: 400px;
+    height: 400px;
+  }
+  
+  .category-card img {
+    height: 200px;
+  }
+}
+
+/* Keep decorative elements lightweight to preserve Bootstrap layout */
+
+

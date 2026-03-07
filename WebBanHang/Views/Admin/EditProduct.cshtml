@@ -1,0 +1,131 @@
+@model WebBanHang.Models.Product
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+}
+
+<div class="container-xxl py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-edit me-2"></i>Chỉnh sửa sản phẩm</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show auto-close">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form method="post" asp-action="EditProduct" asp-route-id="@Model.Id">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="mb-3 fw-bold">Thông tin cơ bản</h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">ID</label>
+                                    <input type="text" class="form-control" value="@Model.Id" disabled />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Tên sản phẩm <span class="text-danger">*</span></label>
+                                    <input type="text" name="Name" class="form-control" value="@Model.Name" required />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mô tả ngắn</label>
+                                    <textarea name="Description" class="form-control" rows="2">@Model.Description</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mô tả chi tiết</label>
+                                    <textarea name="LongDescription" class="form-control" rows="4">@Model.LongDescription</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Thông số kỹ thuật</label>
+                                    <textarea name="Specifications" class="form-control" rows="3">@Model.Specifications</textarea>
+                                    <small class="text-muted">Phân cách bằng dấu chấm phẩy (;)</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">URL hình ảnh</label>
+                                    <input type="url" name="ImageUrl" class="form-control" value="@Model.ImageUrl" />
+                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        <div class="mt-2">
+                                            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-thumbnail" style="max-width: 200px;" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="mb-3 fw-bold">Giá & Kho</h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giá bán</label>
+                                    <input type="text" name="Price" class="form-control" value="@Model.Price" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giá gốc</label>
+                                    <input type="text" name="OriginalPrice" class="form-control" value="@Model.OriginalPrice" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giảm giá (%)</label>
+                                    <input type="number" name="Discount" class="form-control" min="0" max="100" value="@Model.Discount" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Số lượng tồn kho <span class="text-danger">*</span></label>
+                                    <input type="number" name="StockQuantity" class="form-control" min="0" value="@Model.StockQuantity" required />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Danh mục</label>
+                                    <input type="text" name="Category" class="form-control" value="@Model.Category" />
+                                    <small class="text-muted">Phân cách bằng dấu phẩy: laptop, phukien, khuyenmai</small>
+                                </div>
+
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-sync-alt me-2"></i>
+                                    <small>Thay đổi sẽ được cập nhật ngay lập tức vào SQL Server khi bạn lưu.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Lưu thay đổi
+                            </button>
+                            <a asp-action="Products" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto close alerts after 4 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert.auto-close');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 4000);
+    </script>
+}

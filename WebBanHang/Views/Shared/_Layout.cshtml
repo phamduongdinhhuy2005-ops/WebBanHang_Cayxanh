@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+@* Chú thích: layout này được lưu với mã hóa UTF-8 để hiển thị đúng tiếng Việt *@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewData["Title"] - 36Store</title>
+    
+    <!-- Preconnect to Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Font: Inter - Hỗ trợ tiếng Việt với subset Vietnamese -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Color System - Hệ màu chính của dự án -->
+    <link rel="stylesheet" href="~/css/color-system.css" asp-append-version="true" />
+
+    <!-- Bootstrap Overrides - Override màu Bootstrap theo hệ màu chuẩn -->
+    <link rel="stylesheet" href="~/css/bootstrap-overrides.css" asp-append-version="true" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/product-enhancements.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home-enhanced.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- Header -->
+    <header class="mb-3">
+        <nav class="navbar navbar-expand-lg site-navbar shadow-sm py-3">
+            <div class="container-xxl">
+                <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <span class="logo-icon">36</span>
+                    <span class="logo-text">STORE</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Danh mục
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Tất cả</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-category="laptop">Laptop</a></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-category="phukien">Phụ kiện</a></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-category="khuyenmai">Khuyến mãi</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Liên hệ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Chính sách</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex me-3 flex-grow-1 flex-lg-grow-0" role="search" id="navSearchForm">
+                        <input id="navSearchInput" name="search" class="form-control me-2 w-100" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Tìm kiếm" />
+                        <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <div class="d-flex align-items-center gap-2">
+                        @{
+                            var userEmail = Context.Session.GetString("_UserEmail");
+                            var userDisplayName = Context.Session.GetString("_UserDisplayName");
+                            var userRole = Context.Session.GetString("_UserRole");
+                            var isLoggedIn = !string.IsNullOrEmpty(userEmail);
+                            var isAdmin = userRole == "Admin";
+                        }
+
+                        @if (isLoggedIn)
+                        {
+                            <!-- Hiển thị khi đã đăng nhập -->
+                            <div class="dropdown">
+                                <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle fa-lg"></i>
+                                    <span class="d-none d-lg-inline ms-1">@(string.IsNullOrEmpty(userDisplayName) ? userEmail : userDisplayName)</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                    @if (isAdmin)
+                                    {
+                                        <!-- Menu dành cho Admin -->
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index"><i class="fas fa-tachometer-alt me-2"></i>Quản trị hệ thống</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Users"><i class="fas fa-users me-2"></i>Quản lý tài khoản</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Products"><i class="fas fa-box me-2"></i>Quản lý sản phẩm</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="Profile"><i class="fas fa-user me-2"></i>Tài khoản của tôi</a></li>
+                                    }
+                                    else
+                                    {
+                                        <!-- Menu dành cho User thường -->
+                                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="Profile"><i class="fas fa-user me-2"></i>Tài khoản của tôi</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="OrderHistory"><i class="fas fa-history me-2"></i>Lịch sử mua hàng</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="ChangePassword"><i class="fas fa-key me-2"></i>Đổi mật khẩu</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="post" asp-controller="Auth" asp-action="Logout">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Hiển thị khi chưa đăng nhập -->
+                            <div class="d-flex align-items-center gap-2">
+                                <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-sm">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+                                </a>
+                                <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-plus me-1"></i>Đăng ký
+                                </a>
+                            </div>
+                        }
+
+                        <button id="cartButton" type="button" class="btn btn-link position-relative text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-label="Giỏ hàng">
+                            <i class="fas fa-shopping-cart fa-lg" aria-hidden="true"></i>
+                            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:.65rem;display:none;">0</span>
+                        </button>
+                        <!-- Mini-cart preview (hiển thị khi hover) -->
+                        <div id="miniCartPreview" class="card shadow-sm" style="position:absolute; right:24px; top:64px; width:320px; display:none; z-index:1300;">
+                            <div class="card-body p-3" id="miniCartContent">
+                                <div class="text-center text-muted small">Giỏ đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer mt-5 py-4 border-top">
+        <div class="container-xxl">
+            <div class="row gy-4">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h6 class="mb-3 fw-bold">Giới thiệu</h6>
+                    <p class="text-muted small">36Store chuyên cung cấp thiết bị điện tử chính hãng với dịch vụ tư vấn và hậu mãi tận tâm.</p>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h6 class="mb-3 fw-bold">Danh mục</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a asp-controller="Product" asp-action="Index" asp-route-category="laptop" class="text-muted text-decoration-none">Laptop</a></li>
+                        <li class="mb-2"><a asp-controller="Product" asp-action="Index" asp-route-category="phukien" class="text-muted text-decoration-none">Phụ kiện</a></li>
+                        <li class="mb-2"><a asp-controller="Product" asp-action="Index" class="text-muted text-decoration-none">Tất cả sản phẩm</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h6 class="mb-3 fw-bold">Chính sách</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Privacy" class="text-muted text-decoration-none">Chính sách bảo mật</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Chính sách bảo hành</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Chính sách đổi trả</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h6 class="mb-3 fw-bold">Liên hệ</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2 small"><i class="fas fa-envelope me-2 text-primary"></i>support@36store.vn</li>
+                        <li class="mb-2 small"><i class="fas fa-phone me-2 text-primary"></i>0363-636-360</li>
+                        <li class="mb-2 small"><i class="fas fa-map-marker-alt me-2 text-primary"></i>Thanh Hóa, Việt Nam</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4 pt-3 border-top">
+                <div class="col-12 text-center">
+                    <p class="mb-0 text-muted small">© 2026 - 36Store - Tất cả quyền được bảo lưu</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/enhancements.js" asp-append-version="true"></script>
+    <script src="~/js/products.js" asp-append-version="true"></script>
+    
+    <script>
+        // Load cart count
+        function readCartFromStorage() {
+            const keys = ['cart', 'Cart', 'shoppingCart', 'cartItems', 'userCart'];
+            for (const k of keys) {
+                const v = localStorage.getItem(k);
+                if (v) {
+                    try { const parsed = JSON.parse(v); if (Array.isArray(parsed)) return parsed.map(it => ({ id: it.id ?? it.Id ?? it.productId ?? null, quantity: it.quantity ?? it.Quantity ?? 1 })).filter(x => x.id != null); } catch {}
+                }
+            }
+            return [];
+        }
+
+        function updateCartCount() {
+            const cart = readCartFromStorage();
+            const count = (cart || []).reduce((sum, item) => sum + (item.quantity || 0), 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                if (count > 0) {
+                    badge.style.display = 'inline-block';
+                    badge.textContent = count;
+                } else {
+                    badge.style.display = 'none';
+                    badge.textContent = '0';
+                }
+            }
+        }
+
+        // Alias để đồng bộ với products.js
+        window.updateCartBadge = updateCartCount;
+
+        // Update cart count on page load
+        updateCartCount();
+
+        // expose authentication flag for client-side logic
+        window.isAuthenticated = @((User?.Identity?.IsAuthenticated ?? false).ToString().ToLower());
+        window.userName = '@(User?.Identity?.Name ?? string.Empty)';
+
+        // Khi offcanvas giỏ hàng được mở, đảm bảo nội dung giỏ được cập nhật
+        document.addEventListener('DOMContentLoaded', function () {
+            var cartOff = document.getElementById('cartOffcanvas');
+                if (cartOff) {
+                cartOff.addEventListener('show.bs.offcanvas', function () {
+                    try { if (window.rotatePromoIndex) window.rotatePromoIndex(); } catch {}
+                    if (window.renderCart) window.renderCart();
+                    updateCartCount();
+                });
+                // dispose any open popover when cart closed
+                cartOff.addEventListener('hidden.bs.offcanvas', function () {
+                    try { if (window._currentCartPopover) { window._currentCartPopover.hide(); window._currentCartPopover.dispose(); window._currentCartPopover = null; } } catch (e) {}
+                });
+            }
+        });
+        // Checkout modal logic
+        function readCartFromStorage_simple() {
+            const keys = ['cart','Cart','shoppingCart','cartItems','userCart'];
+            for (const k of keys) {
+                const v = localStorage.getItem(k);
+                if (!v) continue;
+                try {
+                    const parsed = JSON.parse(v);
+                    const arr = parsed && parsed.items ? parsed.items : parsed;
+                    if (!Array.isArray(arr)) continue;
+                    const normalized = arr.map(it => {
+                        if (it == null) return null;
+                        if (typeof it === 'number' || typeof it === 'string') return { id: Number(it), quantity: 1 };
+                        if (typeof it === 'object') {
+                            const id = it.id ?? it.Id ?? it.productId ?? it.productID ?? null;
+                            const quantity = it.quantity ?? it.Quantity ?? it.qty ?? 1;
+                            if (id == null) return null;
+                            return { id: Number(id), quantity: Number(quantity) || 1 };
+                        }
+                        return null;
+                    }).filter(x => x && x.id != null);
+                    if (normalized.length > 0) return normalized;
+                } catch(e) {}
+            }
+            return [];
+        }
+
+        async function computeCartTotal_simple() {
+            try {
+                const cart = readCartFromStorage_simple();
+                if (!cart || cart.length === 0) return 0;
+                let products = [];
+                if (window.productApi && window.productApi.getProductsOnce) {
+                    products = await window.productApi.getProductsOnce();
+                } else {
+                    const resp = await fetch('/api/products');
+                    if (!resp.ok) return 0;
+                    const data = await resp.json();
+                    products = data.items || data || [];
+                }
+                const map = new Map(); products.forEach(p=>{ map.set(Number(p.id), p); map.set(String(p.id), p); });
+                let total = 0;
+                cart.forEach(it=>{
+                    const prod = map.get(it.id) || map.get(String(it.id));
+                    if (prod) {
+                        const price = parseInt(String(prod.price).replace(/[^0-9]/g,'')) || 0;
+                        total += price * (it.quantity || 1);
+                    }
+                });
+                return total;
+            } catch(e) { return 0; }
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var checkoutModal = document.getElementById('checkoutModal');
+            if (!checkoutModal) return;
+            checkoutModal.addEventListener('show.bs.modal', async function(){
+                const itemsContainer = document.getElementById('checkoutModalItems');
+                const totalEl = document.getElementById('checkoutModalTotalValue');
+                if (itemsContainer) itemsContainer.innerHTML = '<div class="text-muted">Đang tải giỏ hàng...</div>';
+
+                const cart = readCartFromStorage_simple();
+                if (!cart || cart.length === 0) {
+                    if (itemsContainer) itemsContainer.innerHTML = '<div class="text-muted">Giỏ hàng trống.</div>';
+                    if (totalEl) totalEl.textContent = '0₫';
+                    return;
+                }
+
+                // load products and render items
+                let products = [];
+                try {
+                    if (window.productApi && window.productApi.getProductsOnce) products = await window.productApi.getProductsOnce();
+                    else {
+                        const resp = await fetch('/api/products');
+                        if (resp.ok) {
+                            const data = await resp.json();
+                            products = data.items || data || [];
+                        }
+                    }
+                } catch (e) { products = []; }
+
+                const map = new Map(); products.forEach(p => { map.set(Number(p.id), p); map.set(String(p.id), p); });
+
+                let html = '<div class="list-group">';
+                let total = 0;
+                cart.forEach(it => {
+                    const id = it.id;
+                    const qty = it.quantity || 1;
+                    const prod = map.get(id) || map.get(String(id));
+                    const name = prod ? prod.name : ('Sản phẩm #' + id);
+                    const img = prod ? prod.image : '/images/placeholder.png';
+                    const price = prod ? (parseInt(String(prod.price).replace(/[^0-9]/g,'')) || 0) : 0;
+                    const subtotal = price * qty;
+                    total += subtotal;
+
+                    html += `<div class="list-group-item d-flex gap-3 align-items-center">`;
+                    html += `<img src="${img}" alt="${name}" style="width:56px;height:56px;object-fit:cover;border-radius:.4rem;">`;
+                    html += `<div class="flex-grow-1">`;
+                    html += `<div class="fw-semibold">${escapeHtml(name)}</div>`;
+                    html += `<div class="small text-muted">Số lượng: ${qty} × ${price ? price.toLocaleString('vi-VN') + '₫' : ''}</div>`;
+                    html += `</div>`;
+                    html += `<div class="fw-bold">${price ? price.toLocaleString('vi-VN') + '₫' : ''}</div>`;
+                    html += `</div>`;
+                });
+                html += '</div>';
+
+                if (itemsContainer) itemsContainer.innerHTML = html;
+                if (totalEl) totalEl.textContent = total.toLocaleString('vi-VN') + '₫';
+            });
+
+            const submitBtn = document.getElementById('checkoutSubmitBtn');
+            if (submitBtn) submitBtn.addEventListener('click', async function(){
+                const form = document.getElementById('checkoutModalForm');
+                if (!form) return;
+                // bootstrap validation
+                form.classList.add('was-validated');
+                const name = document.getElementById('checkout_name').value.trim();
+                const phone = document.getElementById('checkout_phone').value.trim();
+                const address = document.getElementById('checkout_address').value.trim();
+                if (!name || !phone || !address) return;
+
+                const payment = document.querySelector('input[name="checkout_payment"]:checked')?.value || 'COD';
+                const cart = readCartFromStorage_simple();
+                if (!cart || cart.length === 0) { alert('Giỏ hàng trống.'); return; }
+                const items = cart.map(i=>({ Id: i.id, Quantity: i.quantity }));
+                const payload = { customerName: name, phone: phone, address: address, items: items, payment: { method: payment } };
+
+                try {
+                    const resp = await fetch('/Checkout/PlaceOrder', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+                    if (!resp.ok) {
+                        const body = await resp.json().catch(()=>({}));
+                        alert('Lỗi khi gửi đơn hàng: ' + (body.error || resp.statusText));
+                        return;
+                    }
+                    // success
+                    // remove cart keys
+                    ['cart','Cart','shoppingCart','cartItems','userCart'].forEach(k=>localStorage.removeItem(k));
+                    window.location.href = '/Checkout/Success';
+                } catch (e) {
+                    console.error(e); alert('Có lỗi khi gửi đơn hàng. Vui lòng thử lại.');
+                }
+            });
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<!--
+    Offcanvas giỏ hàng: thành phần hiển thị giỏ hàng khi người dùng nhấn biểu tượng giỏ
+    - Tránh thay đổi logic JS hiện có, chỉ cung cấp các phần tử DOM mà products.js mong đợi
+    - Các ID dùng: cartOffcanvas, cartItems, cartEmpty, cartTotal
+-->
+<div class="offcanvas offcanvas-end cart-panel" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width:100%;max-width:420px;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel">Giỏ hàng</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
+  </div>
+
+    <div class="offcanvas-body d-flex flex-column" style="overflow-x:hidden;">
+    <!-- Thông báo khi giỏ rỗng -->
+    <div id="cartEmpty" class="text-center text-muted" style="display: none;">
+      <div class="mb-3">
+        <i class="fas fa-shopping-cart fa-2x"></i>
+      </div>
+      <div class="fw-bold">Giỏ hàng của bạn đang trống</div>
+      <div class="small">Thêm sản phẩm vào giỏ để tiếp tục</div>
+    </div>
+
+    <!-- Danh sách item trong giỏ sẽ được render bởi products.js vào phần tử này -->
+    <div id="cartItems" class="flex-grow-1 overflow-auto pe-2" style="min-width:0;"></div>
+    <!-- Promo / gợi ý sẽ được render tại đây (gần khu vực tổng tiền) -->
+    <div id="cartPromo" class="mt-3"></div>
+
+    <div class="mt-3 border-top pt-3">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="fw-semibold">Tổng</div>
+        <div id="cartTotal" class="fw-bold">0₫</div>
+      </div>
+        <div class="d-flex gap-2">
+         <a href="/Product" class="btn btn-outline-secondary flex-grow-1">Tiếp tục mua sắm</a>
+         <button id="openCheckoutModalBtn" type="button" class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#checkoutModal">Thanh toán</button>
+       </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkoutModalLabel">Thanh toán</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <div id="checkoutModalItems" class="mb-3">
+          <!-- items will be rendered here -->
+        </div>
+        <form id="checkoutModalForm" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="checkout_name" class="form-label">Họ tên</label>
+            <input id="checkout_name" class="form-control" required />
+            <div class="invalid-feedback">Vui lòng nhập họ tên.</div>
+          </div>
+          <div class="mb-3">
+            <label for="checkout_phone" class="form-label">Số điện thoại</label>
+            <input id="checkout_phone" class="form-control" inputmode="tel" required />
+            <div class="invalid-feedback">Vui lòng nhập số điện thoại.</div>
+          </div>
+          <div class="mb-3">
+            <label for="checkout_address" class="form-label">Địa chỉ giao hàng</label>
+            <input id="checkout_address" class="form-control" required />
+            <div class="invalid-feedback">Vui lòng nhập địa chỉ giao hàng.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phương thức thanh toán</label>
+            <div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="checkout_payment" id="checkout_pm_cod" value="COD" checked>
+                <label class="form-check-label" for="checkout_pm_cod">Thanh toán khi nhận hàng (COD)</label>
+              </div>
+              <div class="form-check mt-2">
+                <input class="form-check-input" type="radio" name="checkout_payment" id="checkout_pm_card" value="CARD">
+                <label class="form-check-label" for="checkout_pm_card">Thẻ tín dụng / Ghi nợ</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="checkoutModalTotal" class="mb-2 text-end fw-bold">Tổng: <span id="checkoutModalTotalValue">0₫</span></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+        <button id="checkoutSubmitBtn" type="button" class="btn btn-primary">Thanh toán</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm delete modal (placed outside offcanvas so it's not trapped under offcanvas stacking context) -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Xóa sản phẩm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast đơn giản để hiển thị thông báo từ enhancements.js hoặc products.js -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1200;">
+  <div id="globalToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Đã cập nhật</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Đóng"></button>
+    </div>
+  </div>
+</div>
+
+

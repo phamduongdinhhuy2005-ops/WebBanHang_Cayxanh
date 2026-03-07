@@ -1,0 +1,402 @@
+﻿/* ================================================
+   PRIVACY PAGE - FONT FIX
+   Force font Inter và encoding UTF-8
+   ================================================ */
+
+/* Import font tr?c ti?p n?u Google Fonts fail */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&subset=vietnamese');
+
+:root {
+  --privacy-bg: var(--color-light);
+  --card-shadow: var(--shadow-md);
+}
+
+/* Force font cho các phần text trong Privacy page but exclude icon fonts (Font Awesome) */
+#privacy-page,
+#privacy-page h1,
+#privacy-page h2,
+#privacy-page h3,
+#privacy-page h4,
+#privacy-page h5,
+#privacy-page h6,
+#privacy-page p,
+#privacy-page span,
+#privacy-page div,
+#privacy-page a,
+#privacy-page li,
+#privacy-page ul,
+#privacy-page ol,
+#privacy-page button,
+#privacy-page input,
+#privacy-page textarea {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+}
+
+/* Ensure Font Awesome icons inside privacy page use correct families/weights */
+/* Solid icons */
+#privacy-page .fas,
+#privacy-page .fa-solid,
+#privacy-page i.fas,
+#privacy-page i[class*="fa-solid"] {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
+/* Regular icons */
+#privacy-page .far,
+#privacy-page .fa-regular,
+#privacy-page i.far,
+#privacy-page i[class*="fa-regular"] {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 400 !important;
+}
+/* Brand icons */
+#privacy-page .fab,
+#privacy-page .fa-brands,
+#privacy-page i.fab,
+#privacy-page i[class*="fa-brands"] {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* ??m b?o UTF-8 encoding */
+#privacy-page {
+    -webkit-locale: "vi-VN";
+    color: #222;
+}
+
+/* Card styles */
+#privacy-page .privacy-card {
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+/* Helper for circular icon backgrounds (used in privacy view) */
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(18, 38, 63, 0.06);
+}
+
+/* Hero styles */
+#privacy-page .privacy-hero {
+  /* reduce vertical padding to avoid large empty gap */
+  padding: 1.6rem 0 0.6rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  position: relative;
+  z-index: 1;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+}
+
+/* Decorative element like home hero */
+.privacy-hero-decoration {
+  position: absolute;
+  top: -20%;
+  right: -6%;
+  width: 300px;
+  height: 300px;
+  background: var(--highlight-bg);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(8px);
+  transform: rotate(12deg);
+}
+#privacy-page .privacy-hero .hero-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-lighter);
+  border: 2px solid var(--border-color-light);
+}
+
+/* Card header icon */
+#privacy-page .privacy-card .card-body {
+  position: relative;
+}
+#privacy-page .privacy-card .card-icon {
+  width:64px;
+  height:64px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.04);
+}
+
+/* List group style inside cards */
+#privacy-page .privacy-list .list-group-item {
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+#privacy-page .privacy-list .list-group-item i {
+  width: 26px;
+  display: inline-block;
+  text-align: center;
+}
+
+/* CTA styling */
+.privacy-cta .btn-primary {
+  padding: .9rem 1.6rem;
+  font-size: 1.05rem;
+}
+.privacy-cta .btn-outline-primary {
+  padding: .9rem 1.6rem;
+  font-size: 1.05rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767.98px) {
+  #privacy-page .privacy-hero { padding-top: 3rem; }
+  #privacy-page .privacy-card { padding: 0; }
+}
+
+/* Subtle animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.fade-in-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card accent and hover */
+#privacy-page .privacy-card {
+  border-left: 4px solid var(--highlight-border);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+#privacy-page .privacy-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 34px rgba(63, 114, 175, 0.12);
+}
+
+/* Make privacy cards stand out on page */
+#privacy-page .privacy-card {
+  background: #ffffff;
+  border-radius: 14px;
+}
+
+#privacy-page .card-body p, #privacy-page .card-body h4 {
+  z-index: 2;
+}
+
+/* Accent bar for numbered section */
+.privacy-section-number {
+  display: inline-block;
+  min-width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--highlight-bg), rgba(63, 114, 175, 0.03));
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-right: .75rem;
+}
+
+/* Ensure numbered badge aligns nicely in headings */
+.privacy-section-number { vertical-align: middle; margin-right: .75rem; }
+
+/* Feature row under hero */
+#privacy-page .privacy-features .feature-card {
+  border: 0;
+  background: transparent;
+}
+#privacy-page .privacy-features .feature-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(63, 114, 175, 0.1);
+  padding: 1.25rem;
+  min-height: 110px;
+}
+
+/* Ensure feature cards are visible on privacy page even if home animation isn't applied */
+#privacy-page .feature-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+#privacy-page .privacy-features {
+  /* pull features up to overlap hero slightly for a modern look and remove empty gap */
+  margin-top: -2rem;
+  z-index: 3;
+  position: relative;
+}
+
+/* Constrain features to a centered max width to avoid full-width stretching */
+.privacy-inner { max-width: 1200px; margin: 0 auto; }
+
+/* Main content wrapper to better control width and spacing */
+.privacy-main { max-width: 1100px; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+
+/* Ensure privacy grid cards use available column width */
+.privacy-grid .card { width: 100%; }
+
+/* Slightly larger feature cards for visual balance */
+#privacy-page .privacy-features .feature-card { min-height: 140px; }
+
+#privacy-page .privacy-features .feature-icon {
+  width:72px;
+  height:72px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(63, 114, 175, 0.1);
+}
+
+#privacy-page .privacy-features .feature-icon i { font-size: 1.8rem; }
+#privacy-page .privacy-features .feature-card h6 { font-size: 1.125rem; margin-top: .25rem; }
+#privacy-page .privacy-features .feature-card p { font-size: .95rem; color: #6c757d; }
+
+#privacy-page .hero-icon {
+  box-shadow: 0 8px 24px rgba(63, 114, 175, 0.1);
+}
+
+#privacy-page .hero-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-lighter);
+  border: 2px solid var(--border-color-light);
+}
+
+/* Improve typography for headings */
+#privacy-page h1, #privacy-page h2 {
+  letter-spacing: -0.02em;
+}
+
+/* Card header layout: icon, number badge and title aligned */
+.card-header-row { gap: 1rem; }
+.card-header-row .card-icon { flex: 0 0 auto; }
+.card-header-row .privacy-section-number { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; font-size:1rem; margin-right:.75rem; }
+.card-header-row h4 { display:inline-block; margin:0; font-size:1.15rem; }
+.card-header-row p { margin: .25rem 0 0 0; }
+
+/* Increase hero icon and title sizes */
+#privacy-page .hero-icon { width: 112px; height: 112px; }
+#privacy-page h1.display-5 { font-size: 3rem; line-height: 1.05; }
+#privacy-page .lead { font-size: 1.15rem; }
+
+/* Card sizing adjustments for clean 2x2 layout */
+.privacy-main { max-width: 1200px; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+.privacy-grid .col-12.col-md-6 { display:flex; }
+.privacy-grid .privacy-card { flex:1; display:flex; flex-direction:column; }
+.privacy-card .card-body { flex:1; }
+
+/* Slightly larger icons inside cards */
+#privacy-page .card-icon { width:56px; height:56px; }
+#privacy-page .card-icon i { font-size:1.25rem; }
+
+/* small helper to ensure no icon font conflicts */
+.no-select { user-select: none; }
+
+/* Icon styles */
+#privacy-page .privacy-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Discount badge - not used here but keep selector */
+#privacy-page .discount-badge {
+  display: none;
+}
+
+/* Typography tweaks */
+#privacy-page h1, #privacy-page h2, #privacy-page h3 {
+  letter-spacing: -0.02em;
+}
+
+#privacy-page .lead {
+  color: #6c757d;
+}
+
+/* Utility font weights consistent with Bootstrap classes */
+.fw-bold { font-weight: 700 !important; }
+.fw-semibold { font-weight: 600 !important; }
+.fw-normal { font-weight: 400 !important; }
+
+/* Ensure list spacing */
+#privacy-page ul { margin-left: 1rem; }
+
+/* Make sure Vietnamese text renders correctly (browser handles UTF-8). */
+/* If files still show garbled characters, re-encode file contents to UTF-8 without BOM. */
+
+/* Contact card enhancements */
+.privacy-contact-card { display:flex; flex-direction:column; gap:1rem; }
+.privacy-contact-card .contact-row { display:flex; gap:1.25rem; align-items:flex-start; }
+.privacy-contact-card .contact-list { flex:1 1 auto; }
+/* keep actions compact and aligned to available space instead of forcing a fixed column width */
+.privacy-contact-card .contact-actions { width: auto; display:flex; flex-direction:column; gap:.6rem; align-items:flex-end; }
+.privacy-contact-card .contact-actions .btn { min-width: 160px; padding: .55rem 1rem; border-radius: .6rem; display:inline-flex; align-items:center; justify-content:center; gap:.5rem; font-weight:600; }
+.privacy-contact-item i { width:40px; height:40px; border-radius:10px; font-size:1.05rem; display:inline-flex; align-items:center; justify-content:center; }
+
+/* CTA area improvements */
+.privacy-cta { padding:3.25rem 1rem; }
+.privacy-cta .lead { margin-bottom:1.25rem; }
+.privacy-cta .cta-buttons { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
+.privacy-cta .cta-sub { margin-top:1rem; color:#6c757d; }
+
+/* Newsletter input in CTA */
+.privacy-cta .input-group { max-width:560px; margin:0 auto; }
+
+@media (max-width:767.98px) {
+  .privacy-contact-card .contact-row { flex-direction:column; }
+  .privacy-contact-card .contact-actions { width:100%; align-items:stretch; }
+  .privacy-contact-card .contact-actions .btn { width:100%; }
+}
+
+/* Button visual polish to match project theme */
+.privacy-contact-card .contact-actions .btn.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(63, 114, 175, 0.2);
+}
+.privacy-contact-card .contact-actions .btn.btn-primary:hover {
+  filter: brightness(.95);
+  transform: translateY(-1px);
+}
+.privacy-contact-card .contact-actions .btn.btn-outline-primary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--border-color);
+}
+.privacy-contact-card .contact-actions .btn.btn-outline-primary:hover {
+  background: var(--hover-overlay);
+}
+.privacy-contact-card .contact-actions .btn.btn-light {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Slight icon background and spacing */
+.privacy-contact-item i { background: linear-gradient(180deg, var(--highlight-bg), rgba(63, 114, 175, 0.04)); color: var(--color-primary); }
+.privacy-contact-item { display:flex; gap:.75rem; align-items:center; }
+.privacy-contact-item div, .privacy-contact-item span { line-height:1; }
+
+/* Reduce extra whitespace inside contact card */
+.privacy-card .card-body { padding-bottom: 1.25rem; }
+
+

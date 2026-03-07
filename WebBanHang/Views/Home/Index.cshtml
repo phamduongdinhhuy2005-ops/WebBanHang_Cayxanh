@@ -1,0 +1,327 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Hero Section with Animation -->
+<section class="hero-section py-3 position-relative overflow-hidden">
+    <div class="container-xxl position-relative" style="z-index: 2;">
+        <div class="row align-items-center g-3">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold animate-fade-in">Chào mừng đến với cửa hàng điện tử của chúng tôi</h1>
+                <p class="lead animate-fade-in-delay">Khám phá các sản phẩm công nghệ cao cấp với mức giá hấp dẫn.</p>
+                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center justify-content-lg-start">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-lg px-4 py-2 shadow-lg animate-bounce-in">
+                        <i class="fas fa-shopping-bag me-2"></i>Xem sản phẩm ngay
+                    </a>
+                    <a href="#contact" class="btn btn-lg px-4 py-2 animate-bounce-in">Liên hệ tư vấn</a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-lg bg-white text-dark">
+                    <div class="card-body p-3">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-bolt me-2 text-primary"></i>Ưu đãi nhanh</h5>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span>Giảm giá phụ kiện</span>
+                            <span class="badge bg-primary px-2 py-1">15%-50%</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span>Miễn phí giao hàng</span>
+                            <span class="badge bg-success px-2 py-1">1.000.000₫+</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span>Hỗ trợ kỹ thuật</span>
+                            <span class="badge bg-info px-2 py-1">24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Decorative Elements -->
+    <div class="hero-decoration"></div>
+</section>
+
+    <!-- Features -->
+    <section class="py-3">
+        <div class="container-xxl">
+            <h2 class="text-center mb-3 fw-bold text-dark-custom">
+                Tại sao chọn chúng tôi?
+            </h2>
+            <div class="row text-center g-3 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 feature-card">
+                        <div class="card-body p-3">
+                            <div class="feature-icon mb-2">
+                                <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Giao hàng nhanh và tiết kiệm</h5>
+                            <p class="text-muted">Miễn phí giao hàng toàn quốc với đơn hàng trên 1.000.000₫</p>
+                            <div class="feature-badge">
+                                <span class="badge bg-primary px-2 py-1">Miễn phí</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 feature-card">
+                        <div class="card-body p-3">
+                            <div class="feature-icon mb-2">
+                                <i class="fas fa-shield-alt fa-3x text-success"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Bảo hành chính hãng</h5>
+                            <p class="text-muted">Cam kết chính hãng, miễn phí đổi trả và bảo hành lên đến 2 năm tùy theo sản phẩm</p>
+                            <div class="feature-badge">
+                                <span class="badge bg-success px-2 py-1">2 năm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 feature-card">
+                        <div class="card-body p-3">
+                            <div class="feature-icon mb-2">
+                                <i class="fas fa-headset fa-3x text-info"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Hỗ trợ 24/7</h5>
+                            <p class="text-muted">Đội ngũ chăm sóc khách hàng tận tâm, hỗ trợ giải đáp mọi thắc mắc</p>
+                            <div class="feature-badge">
+                                <span class="badge bg-info px-2 py-1">24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 feature-card">
+                        <div class="card-body p-3">
+                            <div class="feature-icon mb-2">
+                                <i class="fas fa-credit-card fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Thanh toán an toàn</h5>
+                            <p class="text-muted">Hỗ trợ nhiều phương thức thanh toán, bảo mật dữ liệu công khai</p>
+                            <div class="feature-badge">
+                                <span class="badge bg-warning px-2 py-1">An toàn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-3 border-top border-light">
+        <div class="container-xxl">
+            <h2 class="text-center mb-3 fw-bold text-dark-custom">
+                Danh mục sản phẩm
+            </h2>
+            <div class="row g-3 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <a asp-controller="Product" asp-action="Index" asp-route-category="laptop" class="text-decoration-none text-dark">
+                        <div class="card border-0 shadow-sm h-100 category-card">
+                            <div class="ratio ratio-4x3">
+                                <img src="https://dlcdnwebimgs.asus.com/gain/f1f5ddca-e396-4966-ba1b-db2ddf1d34d8//fwebp" class="card-img-top object-fit-cover w-100 h-100" alt="Laptop">
+                            </div>
+                            <div class="card-img-overlay d-flex align-items-end" style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                                <div class="w-100 text-white">
+                                    <h5 class="card-title fw-bold">Laptop</h5>
+                                    <p class="mb-0 small">Hiệu năng mạnh mẽ, mỏng nhẹ đáp ứng cho mọi nhu cầu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a asp-controller="Product" asp-action="Index" asp-route-category="phu-kien" class="text-decoration-none text-dark">
+                        <div class="card border-0 shadow-sm h-100 category-card">
+                            <div class="ratio ratio-4x3">
+                                <img src="https://dlcdnwebimgs.asus.com/files/media/202512/20247c95-d59f-4461-8a01-7d278e71a8b9/v1/img/delta/feature-1.webp" class="card-img-top object-fit-cover w-100 h-100" alt="Tai nghe">
+                            </div>
+                            <div class="card-img-overlay d-flex align-items-end" style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                                <div class="w-100 text-white">
+                                    <h5 class="card-title fw-bold">Phụ kiện</h5>
+                                    <p class="mb-0 small">Tai nghe, chuột, bàn phím, sạc...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a asp-controller="Product" asp-action="Index" asp-route-category="khuyen-mai" class="text-decoration-none text-dark">
+                        <div class="card border-0 shadow-sm h-100 category-card">
+                            <div class="ratio ratio-4x3">
+                                <img src="https://www.asus.com/events/promotions/kv/150386c28d2b4366879a45d00b1d8eb7.jpg" class="card-img-top object-fit-cover w-100 h-100" alt="Khuyến mãi">
+                            </div>
+                            <div class="card-img-overlay d-flex align-items-end" style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                                <div class="w-100 text-white">
+                                    <h5 class="card-title fw-bold">Khuyến mãi</h5>
+                                    <p class="mb-0 small">Khuyến mãi đặc biệt cho sản phẩm chính hãng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a asp-controller="Product" asp-action="Index" class="text-decoration-none text-dark">
+                        <div class="card border-0 shadow-sm h-100 category-card">
+                            <div class="ratio ratio-4x3">
+                                <img src="https://dlcdnwebimgs.asus.com/gain/34046ccf-f5d0-4f2b-b5d6-700233f0a862//fwebp" class="card-img-top object-fit-cover w-100 h-100" alt="Phụ kiện">
+                            </div>
+                            <div class="card-img-overlay d-flex align-items-end" style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                                <div class="w-100 text-white">
+                                    <h5 class="card-title fw-bold">Sản phẩm mới</h5>
+                                    <p class="mb-0 small">Những sản phẩm hot nhất hiện nay</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-3 border-top border-light">
+        <div class="container-xxl">
+            <h2 class="text-center mb-3 fw-bold" style="color: var(--palette-4);">
+                Khách hàng nói gì
+            </h2>
+            <div class="row g-3 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm testimonial-card">
+                        <div class="card-body">
+                            <div class="text-warning mb-2">
+                                ★★★★★
+                            </div>
+                            <p class="card-text">“Mua laptop ở đây rất hài lòng. Nhân viên tư vấn nhiệt tình, sản phẩm chất lượng.”</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&size=40" class="rounded-circle me-2" alt="Avatar">
+                                <div>
+                                    <h6 class="mb-0">Nguyễn Văn A</h6>
+                                    <small class="text-muted">Khách hàng thân thiết</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm testimonial-card">
+                        <div class="card-body">
+                            <div class="text-warning mb-2">
+                                ★★★★★
+                            </div>
+                            <p class="card-text">“Giao hàng nhanh, sản phẩm đúng mô tả. Sẽ ủng hộ dài dài.”</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=Tran+Thi+B&size=40" class="rounded-circle me-2" alt="Avatar">
+                                <div>
+                                    <h6 class="mb-0">Trần Thị B</h6>
+                                    <small class="text-muted">Khách hàng mới</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm testimonial-card">
+                        <div class="card-body">
+                            <div class="text-warning mb-2">
+                                ★★★★☆
+                            </div>
+                            <p class="card-text">“Chất lượng tốt, giá hợp lý. Dịch vụ bảo hành cũng rất tiện lợi.”</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=Le+Minh+C&size=40" class="rounded-circle me-2" alt="Avatar">
+                                <div>
+                                    <h6 class="mb-0">Lê Minh C</h6>
+                                    <small class="text-muted">Khách hàng online</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm testimonial-card">
+                        <div class="card-body">
+                            <div class="text-warning mb-2">
+                                ★★★★★
+                            </div>
+                            <p class="card-text">"Màn hình cực nết, hiệu năng mạnh mẽ, rất ưng ý cho công việc đồ họ a."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=Pham+Thu+D&size=40" class="rounded-circle me-2" alt="Avatar">
+                                <div>
+                                    <h6 class="mb-0">Phạm Thu D</h6>
+                                    <small class="text-muted">Khách hàng vũng chắc</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-3 border-top border-light">
+        <div class="container-xxl">
+            <h2 class="text-center mb-3 fw-bold" style="color: var(--palette-4);">
+                Liên hệ
+            </h2>
+            <div class="row g-3">
+                <div class="col-lg-4">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4">
+                                    <h5 class="fw-bold mb-3">Thông tin liên hệ</h5>
+                                    <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i>support@shopexample.vn</p>
+                                    <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i>0363-636-360</p>
+                                    <p class="mb-0"><i class="fas fa-map-marker-alt me-2 text-primary"></i>Thanh Hóa, Việt Nam</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4">
+                                    <h5 class="fw-bold mb-3">Giờ làm việc</h5>
+                                    <p class="mb-2">Thứ 2 - Thứ 6: 8:00 - 20:00</p>
+                                    <p class="mb-2">Thứ 7 - Chủ nhật: 9:00 - 18:00</p>
+                                    <p class="mb-0 text-muted">Hỗ trợ trực tuyến 24/7</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-0">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d238311.7796681217!2d105.57743949999999!3d19.806692!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3136f95efc30a91b%3A0x7cc86ca364843f09!2sThanh%20H%C3%B3a%2C%20Vietnam!5e0!3m2!1sen!2s!4v1643897654321!5m2!1sen!2s" width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen="" loading="lazy" class="rounded"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+@section Scripts {
+    <script>
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Observe all cards for animation
+            document.querySelectorAll('.feature-card, .category-card, .testimonial-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+}
+

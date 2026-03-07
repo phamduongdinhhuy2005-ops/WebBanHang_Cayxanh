@@ -1,0 +1,126 @@
+@model WebBanHang.Models.Product
+@{
+    ViewData["Title"] = "Thêm sản phẩm mới";
+}
+
+<div class="container-xxl py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-plus-circle me-2"></i>Thêm sản phẩm mới</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show auto-close">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form method="post" asp-action="CreateProduct">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="mb-3 fw-bold">Thông tin cơ bản</h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Tên sản phẩm <span class="text-danger">*</span></label>
+                                    <input type="text" name="Name" class="form-control" required />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mô tả ngắn</label>
+                                    <textarea name="Description" class="form-control" rows="2"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mô tả chi tiết</label>
+                                    <textarea name="LongDescription" class="form-control" rows="4"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Thông số kỹ thuật</label>
+                                    <textarea name="Specifications" class="form-control" rows="3" placeholder="CPU: Intel Core i7;RAM: 16GB;SSD: 512GB"></textarea>
+                                    <small class="text-muted">Phân cách bằng dấu chấm phẩy (;)</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">URL hình ảnh</label>
+                                    <input type="url" name="ImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+                                    <small class="text-muted">Link hình ảnh sản phẩm</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="mb-3 fw-bold">Giá & Kho</h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giá bán</label>
+                                    <input type="text" name="Price" class="form-control" placeholder="29,990,000 VND" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giá gốc</label>
+                                    <input type="text" name="OriginalPrice" class="form-control" placeholder="32,990,000 VND" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Giảm giá (%)</label>
+                                    <input type="number" name="Discount" class="form-control" min="0" max="100" value="0" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Số lượng tồn kho <span class="text-danger">*</span></label>
+                                    <input type="number" name="StockQuantity" class="form-control" min="0" value="0" required />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Danh mục</label>
+                                    <select name="Category" class="form-select">
+                                        <option value="laptop">Laptop</option>
+                                        <option value="phukien">Phụ kiện</option>
+                                        <option value="laptop,khuyenmai">Laptop + Khuyến mãi</option>
+                                        <option value="phukien,khuyenmai">Phụ kiện + Khuyến mãi</option>
+                                    </select>
+                                    <small class="text-muted">Phân cách bằng dấu phẩy (,)</small>
+                                </div>
+
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <small>Sản phẩm sẽ được đồng bộ ngay lập tức với SQL Server sau khi lưu.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Thêm sản phẩm
+                            </button>
+                            <a asp-action="Products" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto close alerts after 4 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert.auto-close');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 4000);
+    </script>
+}

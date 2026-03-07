@@ -1,0 +1,17 @@
+@{
+    // Partial breadcrumb đơn giản dùng ViewData["Title"]
+    // Ghi chú: file này giúp người dùng biết họ đang ở trang nào và dễ quay lại trang trước
+    var title = ViewData["Title"] as string ?? "";
+}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb bg-transparent p-0 mb-0">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@title</li>
+    </ol>
+</nav>
+
+@*
+    Chú thích (Tiếng Việt):
+    - Đây là partial breadcrumb tối giản, thân thiện cho project học tập.
+    - Nếu muốn mở rộng, có thể truyền ViewData["BreadcrumbItems"] là một danh sách.
+*@

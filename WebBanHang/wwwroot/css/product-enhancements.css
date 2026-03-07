@@ -1,0 +1,371 @@
+/* ========================================
+   PRODUCT PAGE ENHANCEMENTS - OPTIMIZED
+   Compact, space-efficient design
+   ======================================== */
+
+/* === Promotional Banner === */
+.promo-banner {
+    background: var(--gradient-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* === Compact Sections === */
+section.py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+section.py-3 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+
+/* === Quick Filters === */
+.quick-filters {
+    scrollbar-width: thin;
+    scrollbar-color: #667eea transparent;
+}
+
+.quick-filters::-webkit-scrollbar {
+    height: 3px;
+}
+
+.quick-filters::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+.quick-filters .btn {
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+
+.quick-filters .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+.quick-filters .btn.active {
+    transform: scale(1.03);
+    box-shadow: 0 3px 8px rgba(63, 114, 175, 0.4);
+}
+
+/* === Product Card Hover Effects === */
+.product-card-hover {
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.product-card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+}
+
+/* === Product Image Wrapper === */
+.product-image-wrapper {
+    position: relative;
+    background: linear-gradient(to bottom, #f8f9fa, #fff);
+}
+
+.product-img {
+    transition: transform 0.3s ease;
+    object-fit: contain;
+    padding: 0.75rem;
+}
+
+.product-card-hover:hover .product-img {
+    transform: scale(1.06);
+}
+
+/* === Product Overlay (appears on hover) === */
+.product-overlay {
+    background: rgba(0,0,0,0.65);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.product-card-hover:hover .product-overlay {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.product-overlay .btn {
+    animation: bounceIn 0.4s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* === Compact Badge Styles === */
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    font-size: 0.75rem;
+}
+
+.card .badge {
+    animation: slideInDown 0.4s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === Compact Price Display === */
+.card-body .fs-5 {
+    font-size: 1.25rem !important;
+}
+
+/* === Loading State Enhancement === */
+.products-loading {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* === Card Improvements === */
+.card {
+    border-radius: 0.5rem;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #1b1f2a;
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+.card-text {
+    line-height: 1.4;
+    font-size: 0.8rem;
+}
+
+.card-body {
+    padding: 0.75rem !important;
+}
+
+/* === Compact Input Group === */
+.input-group-sm .form-control,
+.input-group-sm .btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* === Promotional Footer === */
+.input-group .form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.15rem rgba(63, 114, 175, 0.25);
+}
+
+/* === Responsive Grid Optimization === */
+@media (min-width: 1400px) {
+    .row-cols-xl-4 > * {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+}
+
+/* === Responsive Improvements === */
+@media (max-width: 768px) {
+    .promo-banner h2 {
+        font-size: 1.25rem;
+    }
+
+    .promo-banner p {
+        font-size: 0.85rem;
+    }
+
+    .product-card-hover:hover {
+        transform: none;
+    }
+
+    .product-overlay {
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    /* Compact mobile spacing */
+    section.py-3 {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+}
+
+/* === Pagination Enhancement === */
+.pagination .page-link {
+    border-radius: 0.3rem;
+    margin: 0 0.15rem;
+    padding: 0.35rem 0.65rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(63, 114, 175, 0.15);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--gradient-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 3px 8px rgba(63, 114, 175, 0.4);
+}
+
+/* === Smooth Transitions === */
+.card,
+.btn,
+.badge,
+.form-select,
+.form-control {
+    transition: all 0.2s ease;
+}
+
+/* === Focus States === */
+.form-select:focus,
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.15rem rgba(63, 114, 175, 0.25);
+}
+
+/* === Section Backgrounds === */
+.bg-light {
+    background-color: #f8f9fb !important;
+}
+
+/* === Stock Badge Colors === */
+.badge.bg-success {
+    background-color: #10b981 !important;
+}
+
+.badge.bg-warning {
+    background-color: #f59e0b !important;
+}
+
+.badge.bg-danger {
+    background-color: #ef4444 !important;
+}
+
+/* === Compact Button Enhancements === */
+.btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(63, 114, 175, 0.4);
+}
+
+.btn-sm {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.85rem;
+}
+
+/* === Scroll to Top Animation === */
+html {
+    scroll-behavior: smooth;
+}
+
+/* === Tighter Grid Gaps === */
+.g-3 {
+    --bs-gutter-x: 0.75rem;
+    --bs-gutter-y: 0.75rem;
+}
+
+.g-2 {
+    --bs-gutter-x: 0.5rem;
+    --bs-gutter-y: 0.5rem;
+}
+
+/* === Remove Extra Margins === */
+.mb-3 {
+    margin-bottom: 0.75rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem !important;
+}
+
+/* === Compact Typography === */
+.fs-6 {
+    font-size: 0.95rem !important;
+}
+
+.fs-4 {
+    font-size: 1.35rem !important;
+}
+
+.fs-3 {
+    font-size: 1.5rem !important;
+}
+
+.small {
+    font-size: 0.85rem !important;
+}
+
+/* === Container Max Width Optimization === */
+@media (min-width: 1400px) {
+    .container-xxl {
+        max-width: 1400px;
+    }
+}
+
+/* === Image Ratio Optimization === */
+.ratio-4x3 {
+    --bs-aspect-ratio: 70%; /* Slightly more compact */
+}
+
+/* === Better utilize vertical space === */
+body {
+    line-height: 1.5;
+}
+
+/* === Compact Empty State === */
+.col-12.text-center.py-4 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+/* === Remove excessive padding from cards === */
+.card-body.p-3 {
+    padding: 0.75rem !important;
+}
+
+/* === Optimize button spacing === */
+.btn.w-100 {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+}
+

@@ -1,0 +1,118 @@
+@using WebBanHang.Models
+@{
+    ViewData["Title"] = "Liên hệ";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
+}
+
+<meta charset="utf-8" />
+
+<section class="py-5">
+    <div class="container-xxl">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="card border-0 shadow-sm contact-page-card">
+                    <div class="card-body p-4">
+                        @if (TempData["ContactSuccess"] != null)
+                        {
+                            <div class="alert alert-success" role="status" aria-live="polite">@TempData["ContactSuccess"]</div>
+                        }
+                        else if (TempData["ContactError"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert" aria-live="polite">@TempData["ContactError"]</div>
+                        }
+
+                        <form method="post" asp-controller="Home" asp-action="Contact" class="mb-4" role="form" aria-labelledby="contactFormHeading">
+                            @Html.AntiForgeryToken()
+                            <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;" aria-hidden="true" />
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <label for="contact-name" class="visually-hidden">Tên của bạn</label>
+                                    <input id="contact-name" name="name" class="form-control" placeholder="Tên của bạn" required autocomplete="name" autofocus aria-required="true" />
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="contact-email" class="visually-hidden">Email</label>
+                                    <input id="contact-email" name="email" type="email" class="form-control" placeholder="Email" required autocomplete="email" aria-required="true" />
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="contact-subject" class="visually-hidden">Tiêu đề</label>
+                                    <input id="contact-subject" name="subject" class="form-control" placeholder="Tiêu đề" autocomplete="organization-title" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-message" class="visually-hidden">Nội dung tin nhắn</label>
+                                    <textarea id="contact-message" name="message" class="form-control" rows="4" placeholder="Nội dung tin nhắn" required autocomplete="on" aria-required="true"></textarea>
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button class="btn btn-primary" type="submit">Gửi liên hệ</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="text-center mb-4">
+                            <h1 class="fw-bold">Liên hệ với chúng tôi</h1>
+                            <p class="text-muted">Chúng tôi luôn sẵn sàng hỗ trợ bạn — chọn cách liên hệ bên dưới hoặc gửi tin nhắn trực tiếp.</p>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-12 col-md-4">
+                                <div class="card h-100 border-0 shadow-sm contact-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="contact-icon mb-3">
+                                            <i class="fas fa-envelope fa-3x text-primary"></i>
+                                        </div>
+                                        <h5 class="fw-bold">Email</h5>
+                                        <p class="text-muted small">Gửi email cho chúng tôi</p>
+                                        <a href="mailto:support@36store.vn" class="text-primary text-decoration-none fw-semibold">support@36store.vn</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="card h-100 border-0 shadow-sm contact-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="contact-icon mb-3">
+                                            <i class="fas fa-phone fa-3x text-success"></i>
+                                        </div>
+                                        <h5 class="fw-bold">Điện thoại</h5>
+                                        <p class="text-muted small">Hỗ trợ 24/7</p>
+                                        <a href="tel:0363636360" class="text-success text-decoration-none fw-semibold">0363-636-360</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="card h-100 border-0 shadow-sm contact-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="contact-icon mb-3">
+                                            <i class="fas fa-map-marker-alt fa-3x text-danger"></i>
+                                        </div>
+                                        <h5 class="fw-bold">Địa chỉ</h5>
+                                        <p class="text-muted small">Đến thăm cửa hàng</p>
+                                        <p class="text-danger fw-semibold mb-0">Thanh Hóa, Việt Nam</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr class="my-5" />
+
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold">Theo dõi chúng tôi</h3>
+                            <p class="text-muted">Kết nối với chúng tôi để nhận thông tin và các khuyến mãi hấp dẫn</p>
+                        </div>
+
+                        <div class="d-flex justify-content-center flex-wrap gap-3">
+                            <a href="#" class="btn btn-primary btn-lg social-btn-animated" style="min-width:160px;"><i class="fab fa-facebook-f me-2"></i>Facebook</a>
+                            <a href="#" class="btn btn-info btn-lg social-btn-animated text-white" style="min-width:160px;"><i class="fab fa-twitter me-2"></i>Twitter</a>
+                            <a href="#" class="btn btn-danger btn-lg social-btn-animated" style="min-width:160px;"><i class="fab fa-instagram me-2"></i>Instagram</a>
+                            <a href="#" class="btn btn-primary btn-lg social-btn-animated" style="min-width:160px;"><i class="fab fa-linkedin-in me-2"></i>LinkedIn</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

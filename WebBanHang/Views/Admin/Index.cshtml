@@ -1,0 +1,141 @@
+@{
+    ViewData["Title"] = "Quản trị hệ thống";
+    var totalUsers = ViewData["TotalUsers"];
+    var totalProducts = ViewData["TotalProducts"];
+    var totalOrders = ViewData["TotalOrders"];
+    var lowStockProducts = ViewData["LowStockProducts"];
+}
+
+<div class="container-xxl py-4">
+    <h2 class="fw-bold mb-4"><i class="fas fa-tachometer-alt me-2"></i>Quản trị hệ thống</h2>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Tài khoản</h6>
+                            <h3 class="mb-0 fw-bold">@totalUsers</h3>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <a asp-action="Users" class="btn btn-sm btn-outline-primary mt-3 w-100">Quản lý</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Sản phẩm</h6>
+                            <h3 class="mb-0 fw-bold">@totalProducts</h3>
+                        </div>
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-box fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <a asp-action="Products" class="btn btn-sm btn-outline-success mt-3 w-100">Quản lý</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Đơn hàng</h6>
+                            <h3 class="mb-0 fw-bold">@totalOrders</h3>
+                        </div>
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-shopping-cart fa-2x text-info"></i>
+                        </div>
+                    </div>
+                    <a asp-action="Orders" class="btn btn-sm btn-outline-info mt-3 w-100">Quản lý</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Sắp hết hàng</h6>
+                            <h3 class="mb-0 fw-bold text-warning">@lowStockProducts</h3>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <a asp-action="Products" class="btn btn-sm btn-outline-warning mt-3 w-100">Kiểm tra</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-bolt me-2"></i>Thao tác nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <a asp-action="CreateUser" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-plus me-2 text-primary"></i>Tạo tài khoản mới
+                        </a>
+                        <a asp-action="CreateProduct" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus-circle me-2 text-success"></i>Thêm sản phẩm mới
+                        </a>
+                        <a asp-action="Users" class="list-group-item list-group-item-action">
+                            <i class="fas fa-users me-2 text-info"></i>Xem danh sách tài khoản
+                        </a>
+                        <a asp-action="Products" class="list-group-item list-group-item-action">
+                            <i class="fas fa-box me-2 text-warning"></i>Xem danh sách sản phẩm
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-info-circle me-2"></i>Thông tin hệ thống</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <td class="text-muted">Framework:</td>
+                            <td class="fw-bold">ASP.NET Core 8.0</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Database:</td>
+                            <td class="fw-bold">SQL Server</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">ORM:</td>
+                            <td class="fw-bold">Entity Framework Core</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Session:</td>
+                            <td class="fw-bold">InProc (In-Memory)</td>
+                        </tr>
+                    </table>
+                    <div class="alert alert-info mb-0 mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <small>Các thay đổi sẽ được đồng bộ ngay lập tức với SQL Server thông qua Entity Framework Core.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

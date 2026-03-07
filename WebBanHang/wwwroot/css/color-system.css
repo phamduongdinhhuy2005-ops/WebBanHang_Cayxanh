@@ -1,0 +1,186 @@
+/* ========================================
+   COLOR SYSTEM - Hệ màu chính của dự án
+   Bảng màu gốc:
+   - #F9F7F7 (Light): Nền chính
+   - #DBE2EF (Surface): Các surface/card
+   - #3F72AF (Primary): Màu chính - buttons, links, highlights
+   - #112D4E (Dark): Màu tối - text, header, footer
+   ======================================== */
+
+:root {
+  /* ===== Màu gốc (Primary Palette) ===== */
+  --color-light: #F9F7F7;
+  --color-surface: #DBE2EF;
+  --color-primary: #3F72AF;
+  --color-dark: #112D4E;
+
+  /* ===== Biến thể Light - Sắc độ sáng hơn ===== */
+  --color-light-lighter: #FFFFFF;
+  --color-light-darker: #F0EEEE;
+  
+  /* ===== Biến thể Surface - Sắc độ từ DBE2EF ===== */
+  --color-surface-lighter: #EDF1F7;
+  --color-surface-light: #E5EBF3;
+  --color-surface-dark: #C8D4E6;
+  --color-surface-darker: #B5C6DD;
+  
+  /* ===== Biến thể Primary - Sắc độ từ 3F72AF ===== */
+  --color-primary-lighter: #6A93C8;
+  --color-primary-light: #5282BE;
+  --color-primary-dark: #2F5A8F;
+  --color-primary-darker: #244671;
+  
+  /* ===== Biến thể Dark - Sắc độ từ 112D4E ===== */
+  --color-dark-lighter: #1A4268;
+  --color-dark-light: #163957;
+  --color-dark-soft: #1A3D5C;
+  --color-dark-darker: #0C1F35;
+
+  /* ===== Màu nền trang ===== */
+  --page-bg: var(--color-light);
+  --page-bg-alt: var(--color-surface-lighter);
+  
+  /* ===== Màu card và container ===== */
+  --card-bg: var(--color-light-lighter);
+  --card-border: rgba(63, 114, 175, 0.12);
+  --card-shadow: 0 6px 16px rgba(17, 45, 78, 0.08);
+  --card-shadow-hover: 0 8px 24px rgba(17, 45, 78, 0.12);
+  
+  /* ===== Text colors ===== */
+  --text-primary: var(--color-dark);
+  --text-secondary: var(--color-dark-lighter);
+  --text-muted: var(--color-dark-soft);
+  --text-light: var(--color-surface-darker);
+  
+  /* ===== Links ===== */
+  --link-color: var(--color-primary);
+  --link-hover: var(--color-primary-dark);
+  
+  /* ===== Buttons ===== */
+  --btn-primary-bg: var(--color-primary);
+  --btn-primary-bg-hover: var(--color-primary-dark);
+  --btn-primary-text: #FFFFFF;
+  --btn-primary-border: var(--color-primary);
+  
+  --btn-secondary-bg: var(--color-surface);
+  --btn-secondary-bg-hover: var(--color-surface-dark);
+  --btn-secondary-text: var(--color-dark);
+  --btn-secondary-border: var(--color-surface-dark);
+  
+  --btn-outline-border: var(--color-primary);
+  --btn-outline-text: var(--color-primary);
+  --btn-outline-bg-hover: var(--color-primary);
+  --btn-outline-text-hover: #FFFFFF;
+  
+  /* ===== Forms ===== */
+  --input-border: var(--color-surface-dark);
+  --input-border-focus: var(--color-primary);
+  --input-bg: var(--color-light-lighter);
+  --input-text: var(--color-dark);
+  --input-placeholder: var(--color-surface-darker);
+  
+  /* ===== Navbar / Header ===== */
+  --navbar-bg: linear-gradient(135deg, var(--color-surface-lighter) 0%, var(--color-surface) 100%);
+  --navbar-text: var(--color-dark);
+  --navbar-link: var(--color-dark);
+  --navbar-link-hover: var(--color-primary);
+  --navbar-link-active: var(--color-primary);
+  
+  /* ===== Footer ===== */
+  --footer-bg: linear-gradient(180deg, var(--color-surface-lighter) 0%, var(--color-surface-light) 100%);
+  --footer-text: var(--color-dark);
+  --footer-link: var(--color-dark-lighter);
+  --footer-link-hover: var(--color-primary);
+  
+  /* ===== Badges ===== */
+  --badge-primary-bg: var(--color-primary);
+  --badge-primary-text: #FFFFFF;
+  --badge-success-bg: #10b981;
+  --badge-success-text: #FFFFFF;
+  --badge-warning-bg: #f59e0b;
+  --badge-warning-text: #FFFFFF;
+  --badge-danger-bg: #ef4444;
+  --badge-danger-text: #FFFFFF;
+  --badge-info-bg: var(--color-surface-dark);
+  --badge-info-text: var(--color-dark);
+  
+  /* ===== Tables ===== */
+  --table-border: var(--color-surface-dark);
+  --table-header-bg: var(--color-surface);
+  --table-header-text: var(--color-dark);
+  --table-row-hover: var(--color-surface-lighter);
+  
+  /* ===== Borders ===== */
+  --border-color: var(--color-surface-dark);
+  --border-color-light: var(--color-surface-light);
+  --border-color-dark: var(--color-surface-darker);
+  
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 2px 8px rgba(17, 45, 78, 0.06);
+  --shadow-md: var(--card-shadow);
+  --shadow-lg: 0 12px 32px rgba(17, 45, 78, 0.15);
+  
+  /* ===== Overlays ===== */
+  --overlay-dark: rgba(17, 45, 78, 0.7);
+  --overlay-light: rgba(219, 226, 239, 0.9);
+  
+  /* ===== Gradients ===== */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+  --gradient-surface: linear-gradient(180deg, var(--color-surface-lighter) 0%, var(--color-surface) 100%);
+  --gradient-dark: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-lighter) 100%);
+  
+  /* ===== Hover effects ===== */
+  --hover-overlay: rgba(63, 114, 175, 0.08);
+  --active-overlay: rgba(63, 114, 175, 0.15);
+  
+  /* ===== Highlights & Accents ===== */
+  --highlight-bg: rgba(63, 114, 175, 0.06);
+  --highlight-border: var(--color-primary-light);
+  
+  /* ===== Icons ===== */
+  --icon-color: var(--color-primary);
+  --icon-color-secondary: var(--color-surface-darker);
+  --icon-bg: rgba(63, 114, 175, 0.1);
+  
+  /* ===== Special Elements ===== */
+  --promo-gradient: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-darker) 100%);
+  --discount-gradient: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  
+  /* ===== Component specific ===== */
+  --card-radius: 0.75rem;
+  --btn-radius: 0.5rem;
+  --input-radius: 0.5rem;
+  --badge-radius: 0.375rem;
+  
+  /* ===== Transitions ===== */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.35s ease;
+}
+
+/* ===== Dark mode support (optional - có thể bỏ qua nếu không cần) ===== */
+@media (prefers-color-scheme: dark) {
+  /* Giữ nguyên màu sáng - không áp dụng dark mode */
+}
+
+/* ===== Utility classes sử dụng color system ===== */
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-surface { background-color: var(--color-surface) !important; }
+.bg-light-custom { background-color: var(--color-light) !important; }
+.bg-dark-custom { background-color: var(--color-dark) !important; }
+
+.text-primary-custom { color: var(--color-primary) !important; }
+.text-dark-custom { color: var(--color-dark) !important; }
+.text-muted-custom { color: var(--text-muted) !important; }
+
+.border-primary-custom { border-color: var(--color-primary) !important; }
+.border-surface { border-color: var(--color-surface-dark) !important; }
+
+/* ===== Print/Export compatibility ===== */
+@media print {
+  :root {
+    --text-primary: #000000;
+    --page-bg: #FFFFFF;
+    --card-bg: #FFFFFF;
+  }
+}

@@ -1,0 +1,255 @@
+﻿@using WebBanHang.Models
+@{
+    ViewData["Title"] = "Chính sách bảo mật";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
+}
+
+<meta charset="utf-8" />
+
+<div id="privacy-page">
+    <!-- Hero Section -->
+    <section class="privacy-hero border-bottom">
+        <div class="container-xxl text-center">
+            <div class="mb-4">
+                <div class="hero-icon">
+                    <i class="fas fa-shield-alt fa-2x text-primary"></i>
+                </div>
+            </div>
+            <h1 class="display-5 fw-bold mb-3">Chính sách bảo mật</h1>
+            <p class="lead text-muted">Chúng tôi cam kết bảo vệ thông tin cá nhân và các dữ liệu nhạy cảm của bạn</p>
+        </div>
+        <div class="privacy-hero-decoration" aria-hidden="true"></div>
+    </section>
+
+    <!-- Quick features under hero -->
+    <section class="privacy-features py-4">
+        <div class="container-xxl">
+            <div class="privacy-inner mx-auto">
+            <div class="row g-3 justify-content-center text-center">
+                <div class="col-12 col-md-4">
+                    <div class="feature-card p-3">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="feature-icon me-2">
+                                <i class="fas fa-shield-alt text-primary"></i>
+                            </div>
+                        </div>
+                        <h6 class="fw-bold mb-1">An toàn</h6>
+                        <p class="text-muted small mb-0">Bảo vệ dữ liệu bằng tiêu chuẩn bảo mật.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="feature-card p-3">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="feature-icon me-2">
+                                <i class="fas fa-user-secret text-success"></i>
+                            </div>
+                        </div>
+                        <h6 class="fw-bold mb-1">Minh bạch</h6>
+                        <p class="text-muted small mb-0">Quyền của bạn được tôn trọng và rõ ràng.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="feature-card p-3">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <div class="feature-icon me-2">
+                                <i class="fas fa-headset text-info"></i>
+                            </div>
+                        </div>
+                        <h6 class="fw-bold mb-1">Hỗ trợ</h6>
+                        <p class="text-muted small mb-0">Hỗ trợ khách hàng nhanh chóng, 24/7.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container-xxl">
+            <div class="privacy-main mx-auto">
+            <div class="row privacy-grid">
+                <div class="col-12 col-md-6 mb-4">
+                    <!-- Card 1: Thu thập thông tin -->
+                    <div class="card border-0 shadow-sm h-100 privacy-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start mb-3 card-header-row">
+                                <div class="card-icon me-3 icon-circle bg-white">
+                                    <i class="fas fa-shield-alt fa-lg text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-2"><span class="privacy-section-number">1</span>Thu thập thông tin</h4>
+                                    <p class="text-muted mb-3">Chúng tôi thu thập thông tin cá nhân khi bạn:</p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush privacy-list ps-3">
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Đăng ký sử dụng tài khoản</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Đặt hàng sản phẩm</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Đăng ký nhận bản tin và khuyến mãi</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Liên hệ với chúng tôi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-4">
+                    <!-- Card 2: Bảo mật thông tin -->
+                    <div class="card border-0 shadow-sm h-100 privacy-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start mb-3 card-header-row">
+                                <div class="card-icon me-3 icon-circle bg-white">
+                                    <i class="fas fa-lock fa-lg text-success"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-2"><span class="privacy-section-number">2</span>Bảo mật thông tin</h4>
+                                    <p class="text-muted mb-3">Chúng tôi bảo vệ thông tin bằng các biện pháp:</p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush privacy-list ps-3">
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Sử dụng SSL/TLS cho các giao dịch</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Không chia sẻ thông tin với các bên thứ ba trái phép</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Lưu trữ dữ liệu trên server an toàn</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Tuân thủ các tiêu chuẩn bảo mật cơ bản</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-4">
+                    <!-- Card 3: Quyền của khách hàng -->
+                    <div class="card border-0 shadow-sm h-100 privacy-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start mb-3 card-header-row">
+                                <div class="card-icon me-3 icon-circle bg-white">
+                                    <i class="fas fa-user-check fa-lg text-info"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-2"><span class="privacy-section-number">3</span>Quyền của khách hàng</h4>
+                                    <p class="text-muted mb-3">Bạn có quyền:</p>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush privacy-list ps-3">
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Truy cập và xem thông tin cá nhân</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Yêu cầu hỗ trợ, chỉnh sửa thông tin không chính xác</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Yêu cầu xóa tài khoản và dữ liệu</li>
+                                <li class="list-group-item mb-2"><i class="fas fa-check-circle text-success me-2"></i>Từ chối nhận email marketing từ chúng tôi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-4">
+                    <!-- Card 4: Liên hệ -->
+                    <div class="card border-0 shadow-sm h-100 privacy-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start mb-3 card-header-row">
+                                <div class="card-icon me-3 icon-circle bg-white">
+                                    <i class="fas fa-envelope fa-lg text-warning"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-2"><span class="privacy-section-number">4</span>Liên hệ</h4>
+                                    <p class="text-muted mb-3">Nếu bạn có câu hỏi về chính sách bảo mật, vui lòng liên hệ với chúng tôi thông qua:</p>
+                                </div>
+                            </div>
+                            <div class="privacy-contact-card ps-4">
+                                <div class="contact-row">
+                                    <div class="contact-list">
+                                        <div class="privacy-contact-item mb-3">
+                                            <i class="fas fa-envelope"></i>
+                                            <div>
+                                                <div class="text-muted small">Email</div>
+                                                <a href="mailto:support@36store.vn">support@36store.vn</a>
+                                            </div>
+                                        </div>
+                                        <div class="privacy-contact-item mb-3">
+                                            <i class="fas fa-phone"></i>
+                                            <div>
+                                                <div class="text-muted small">Điện thoại</div>
+                                                <a href="tel:0363636360">0363-636-360</a>
+                                            </div>
+                                        </div>
+                                        <div class="privacy-contact-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <div>
+                                                <div class="text-muted small">Địa chỉ</div>
+                                                <span class="fw-semibold">Thanh Hóa, Việt Nam</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="contact-actions">
+                                        <a href="tel:0363636360" class="btn btn-primary">
+                                            <i class="fas fa-phone me-2"></i>Gọi ngay
+                                        </a>
+                                        <a href="mailto:support@36store.vn" class="btn btn-outline-primary">
+                                            <i class="fas fa-envelope me-2"></i>Gửi email
+                                        </a>
+                                        <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/Thanh+H%C3%B3a,+Vietnam" class="btn btn-light border">
+                                            <i class="fas fa-map-marked-alt me-2"></i>Xem bản đồ
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="col-12">
+                    <div class="alert alert-primary border-0 shadow-sm d-flex align-items-center" role="alert">
+                        <i class="fas fa-info-circle me-3 fa-2x"></i>
+                        <div>
+                            <strong>Cập nhật lần cuối:</strong> Tháng 2/2025
+                            <br />
+                            <small>Chúng tôi sẽ cập nhật các chính sách này theo thời gian. Vui lòng kiểm tra thường xuyên.</small>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- CTA Section -->
+                </div>
+                <!-- CTA Section -->
+                <div class="col-12">
+                    <div class="text-center mt-5 py-4 privacy-cta">
+                        <h4 class="display-6 fw-bold mb-2">Cần thêm thông tin?</h4>
+                        <p class="lead text-muted mb-4">Liên hệ với chúng tôi hoặc đăng ký để nhận thông tin và các khuyến mãi hấp dẫn</p>
+                        <div class="cta-buttons">
+                            <a href="/Product/Index#contact" class="btn btn-primary btn-lg px-4 d-flex align-items-center">
+                                <i class="fas fa-envelope me-2"></i>Liên hệ ngay
+                            </a>
+                            <a href="/Product" class="btn btn-outline-primary btn-lg px-4 d-flex align-items-center">
+                                <i class="fas fa-shopping-bag me-2"></i>Xem sản phẩm
+                            </a>
+                        </div>
+                            <div class="mt-4">
+                                @if (TempData["SubscribeSuccess"] != null)
+                                {
+                                    <div class="alert alert-success">@TempData["SubscribeSuccess"]</div>
+                                }
+                                else if (TempData["SubscribeError"] != null)
+                                {
+                                    <div class="alert alert-danger">@TempData["SubscribeError"]</div>
+                                }
+                                <form class="d-flex justify-content-center" method="post" asp-action="Subscribe" asp-controller="Home">
+                                    @Html.AntiForgeryToken()
+                                    <div class="input-group">
+                                        <input name="email" type="email" class="form-control" placeholder="Nhập email để nhận thông tin" aria-label="Email" required>
+                                        <button class="btn btn-primary" type="submit">Đăng ký</button>
+                                    </div>
+                                </form>
+                                <div class="cta-sub small">Hoặc gọi <a href="tel:0363636360">0363-636-360</a> để được tư vấn trực tiếp</div>
+                            </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+

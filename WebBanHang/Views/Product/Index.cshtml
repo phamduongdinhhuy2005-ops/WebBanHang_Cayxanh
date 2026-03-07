@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Sản phẩm";
+}
+
+<!-- Promotional Banner -->
+<section class="promo-banner py-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container-xxl">
+        <div class="row align-items-center text-white g-2">
+            <div class="col-md-8">
+                <h2 class="fw-bold mb-1 fs-4">🔥 Ưu đãi đặc biệt hôm nay!</h2>
+                <p class="mb-0 small">Giảm giá lên đến 12% cho sản phẩm chọn lọc - Số lượng có hạn</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                <a href="#deals" class="btn btn-light btn-sm px-4 shadow-sm">
+                    <i class="fas fa-fire me-1"></i>Xem ngay
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumb & Title -->
+<section class="py-2 bg-light border-bottom">
+    <div class="container-xxl">
+        @await Html.PartialAsync("_Breadcrumb")
+        <div class="row align-items-center mt-1">
+            <div class="col-md-6">
+                <h1 class="fw-bold mb-1 fs-3">Sản phẩm nổi bật</h1>
+                <p class="text-muted mb-0 small">Khám phá các sản phẩm chất lượng cao</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="d-flex gap-2 justify-content-md-end mt-2 mt-md-0 flex-wrap">
+                    <span class="badge bg-danger px-2 py-1">
+                        <i class="fas fa-tag me-1"></i>Sale
+                    </span>
+                    <span class="badge bg-primary px-2 py-1">
+                        <i class="fas fa-star me-1"></i>Hot
+                    </span>
+                    <span class="badge bg-success px-2 py-1">
+                        <i class="fas fa-sparkles me-1"></i>New
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Category Filters -->
+<section class="py-2 bg-white border-bottom">
+    <div class="container-xxl">
+        <div class="d-flex gap-2 overflow-auto pb-1 quick-filters">
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 active" data-filter="all">
+                <i class="fas fa-th me-1"></i>Tất cả
+            </button>
+            <button class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1" data-filter="sale">
+                <i class="fas fa-percentage me-1"></i>Giảm giá
+            </button>
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1" data-filter="laptop">
+                <i class="fas fa-laptop me-1"></i>Laptop
+            </button>
+            <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1" data-filter="phukien">
+                <i class="fas fa-mouse me-1"></i>Phụ kiện
+            </button>
+            <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1" data-filter="new">
+                <i class="fas fa-certificate me-1"></i>Mới nhất
+            </button>
+            <button class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1" data-filter="lowstock">
+                <i class="fas fa-exclamation-triangle me-1"></i>Sắp hết
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="py-3 bg-light">
+    <div class="container-xxl">
+        <!-- Compact Toolbar -->
+        <div class="row align-items-center mb-3 g-2">
+            <div class="col-auto">
+                <small class="text-muted me-1">Hiện có</small>
+                <span id="productsCount" class="fw-bold text-primary">0 sản phẩm</span>
+            </div>
+
+            <div class="col-auto ms-auto">
+                <div class="d-flex gap-2 flex-wrap">
+                    <!-- Sort Dropdown -->
+                    <select id="sortSelect" class="form-select form-select-sm shadow-sm" style="min-width: 160px;">
+                        <option value="">Sắp xếp mặc định</option>
+                        <option value="price_asc">Giá: Thấp → Cao</option>
+                        <option value="price_desc">Giá: Cao → Thấp</option>
+                        <option value="name_asc">Tên: A → Z</option>
+                        <option value="name_desc">Tên: Z → A</option>
+                        <option value="newest">Mới nhất</option>
+                    </select>
+
+                    <!-- Items Per Page -->
+                    <select id="pageSizeSelect" class="form-select form-select-sm shadow-sm" style="min-width: 100px;">
+                        <option value="9" selected>9 / trang</option>
+                        <option value="12">12 / trang</option>
+                        <option value="15">15 / trang</option>
+                        <option value="24">24 / trang</option>
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid - Tighter spacing -->
+        <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 mb-3">
+            <!-- Loading State -->
+            <div class="col-12 text-center py-4 products-loading">
+                <div class="spinner-border text-primary mb-2" style="width: 2.5rem; height: 2.5rem;" role="status">
+                    <span class="visually-hidden">Đang tải...</span>
+                </div>
+                <p class="text-muted fw-semibold mb-0 small">Đang tải sản phẩm...</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+    </div>
+</section>
+
+<!-- Compact Promotional Footer -->
+<section class="py-3 bg-dark text-white">
+    <div class="container-xxl">
+        <div class="row align-items-center g-2">
+            <div class="col-md-7 text-center text-md-start">
+                <h5 class="fw-bold mb-1 fs-6">
+                    <i class="fas fa-gifts text-warning me-2"></i>Đăng ký nhận ưu đãi đặc biệt
+                </h5>
+                <p class="mb-md-0 text-white-50 small">Nhận thông tin về sản phẩm mới và khuyến mãi hấp dẫn</p>
+            </div>
+            <div class="col-md-5 mt-2 mt-md-0">
+                <div class="input-group input-group-sm shadow">
+                    <input type="email" class="form-control" placeholder="Email của bạn...">
+                    <button class="btn btn-warning fw-semibold" type="button">
+                        <i class="fas fa-paper-plane me-1"></i>Đăng ký
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/product-api.js" asp-append-version="true"></script>
+    <script src="~/js/products.js" asp-append-version="true"></script>
+    <script src="~/js/product-enhancements.js" asp-append-version="true"></script>
+}
+
+

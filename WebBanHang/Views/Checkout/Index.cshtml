@@ -1,0 +1,412 @@
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<section class="py-5">
+    <div class="container-xxl">
+        @await Html.PartialAsync("_Breadcrumb")
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="fw-bold mb-3">Thanh toán</h2>
+                <p class="text-muted">Trang này là mẫu thanh toán cơ bản, khi có dữ liệu thật sẽ hiện form nhập địa chỉ, phương thức thanh toán và tóm tắt đơn hàng</p>
+
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <h5 class="mb-3">Thông tin giao hàng</h5>
+                        <form id="checkoutForm" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label">Họ tên khách hàng</label>
+                                <input id="customerName" class="form-control" />
+                                <div class="invalid-feedback" id="errName">Vui lòng nhập họ tên.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số điện thoại</label>
+                                <input id="customerPhone" class="form-control" />
+                                <div class="invalid-feedback" id="errPhone">Vui lòng nhập số điện thoại hợp lệ.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Địa chỉ</label>
+                                <input id="customerAddress" class="form-control" />
+                                <div class="invalid-feedback" id="errAddress">Vui lòng nhập địa chỉ giao hàng.</div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <h5 class="mb-3">Tóm tắt đơn hàng</h5>
+                        <div id="checkoutSummary">
+                            <p class="text-muted">Không có sản phẩm trong giỏ.</p>
+                        </div>
+                        <!-- Debug area (can be removed in production) -->
+                        <div id="checkoutDebug" class="mt-3">
+                            <details class="small text-muted">
+                                <summary>Debug: cart / product lookup</summary>
+                                <pre id="checkoutDebugPre" style="white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;"></pre>
+                            </details>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h6 class="card-title">Phương thức thanh toán</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pmCod" value="COD" checked>
+                                    <label class="form-check-label" for="pmCod">Thanh toán khi nhận hàng (COD)</label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pmCard" value="CARD">
+                                    <label class="form-check-label" for="pmCard">Thẻ tín dụng / Ghi nợ</label>
+                                </div>
+
+                                <div id="cardOptions" class="mt-3" style="display:none;">
+                                    <label class="form-label">Chọn loại thẻ</label>
+                                    <select id="cardType" class="form-select">
+                                        <option value="visa">Visa</option>
+                                        <option value="mastercard">MasterCard</option>
+                                        <option value="jcb">JCB</option>
+                                        <option value="amex">American Express</option>
+                                    </select>
+
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Số thẻ</label>
+                                            <input id="cardNumber" class="form-control" inputmode="numeric" placeholder="XXXX XXXX XXXX XXXX">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">Hết hạn (MM/YY)</label>
+                                            <input id="cardExpiry" class="form-control" placeholder="MM/YY">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">CVV</label>
+                                            <input id="cardCvv" class="form-control" inputmode="numeric" placeholder="CVV">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <div class="text-muted">Tạm tính</div>
+                                    <div id="checkoutTotal" class="fs-5 fw-bold">0₫</div>
+                                </div>
+
+                                <div class="d-flex gap-2 mt-3">
+                                    <a href="/Product" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
+                                    <button class="btn btn-primary ms-auto" id="placeOrderBtn">Tiến hành thanh toán</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/product-api.js" asp-append-version="true"></script>
+    <script>
+       
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCheckoutSummary();
+        });
+                console.debug('[checkout] products loaded:', products.length, 'map keys:', Array.from(map.keys()));
+                // Update on-page debug
+                try { const debugEl = document.getElementById('checkoutDebugPre'); if (debugEl) debugEl.textContent = 'products: ' + JSON.stringify(products.map(x=>({id:x.id,name:x.name}))) + '\n'; } catch {}
+
+        async function loadCheckoutSummary() {
+            const summaryEl = document.getElementById('checkoutSummary');
+            const placeBtn = document.getElementById('placeOrderBtn');
+            if (!summaryEl) return;
+
+    
+            // Try common localStorage keys for compatibility and normalize item shape
+            function readCartFromStorage() {
+                const keys = ['cart', 'Cart', 'shoppingCart', 'cartItems', 'userCart'];
+                for (const k of keys) {
+                    const v = localStorage.getItem(k);
+                    if (!v) continue;
+                    try {
+                        const parsed = JSON.parse(v);
+                        const arr = parsed && parsed.items ? parsed.items : parsed;
+                        if (!Array.isArray(arr)) continue;
+                        const normalized = arr.map(it => {
+                            if (it == null) return null;
+                            if (typeof it === 'number' || typeof it === 'string') {
+                                return { id: Number(it), quantity: 1 };
+                            }
+                            if (typeof it === 'object') {
+                                const id = it.id ?? it.Id ?? it.productId ?? it.productID ?? null;
+                                const quantity = it.quantity ?? it.Quantity ?? it.qty ?? 1;
+                                if (id == null) return null;
+                                return { id: Number(id), quantity: Number(quantity) || 1 };
+                            }
+                            return null;
+                        }).filter(x => x && x.id != null && x.id > 0 && !isNaN(x.id)); // Filter invalid IDs (null, 0, negative, NaN)
+                        if (normalized.length > 0) return normalized;
+                    } catch (e) { /* ignore parse errors */ }
+                }
+                return [];
+            }
+
+            const cart = readCartFromStorage();
+
+            if (!cart || cart.length === 0) {
+                summaryEl.innerHTML = '<p class="text-muted">Không có sản phẩm trong giỏ.</p>';
+                if (placeBtn) placeBtn.disabled = true;
+                return;
+            }
+
+ 
+            try {
+                
+                // Load products (may return { items, total } or plain array)
+                let products;
+                if (window.productApi && window.productApi.getProductsOnce) {
+                    products = await window.productApi.getProductsOnce();
+                } else {
+                    const resp = await fetch('/api/products');
+                    if (!resp.ok) throw new Error('Không thể tải dữ liệu sản phẩm');
+                    const data = await resp.json();
+                    products = data.items || data;
+                }
+
+                // Ensure products is an array
+                if (!Array.isArray(products)) products = [];
+
+                // Tạo map nhanh id -> product (both string and number keys)
+                const map = new Map();
+                products.forEach(p => {
+                    try {
+                        const keyNum = Number(p.id);
+                        map.set(keyNum, p);
+                        map.set(String(p.id), p);
+                    } catch (e) {
+                        map.set(p.id, p);
+                    }
+                });
+
+                // If some cart items refer to products not present in the fetched list,
+                // try fetching them individually from /api/products/{id}
+                const missingIds = [];
+                cart.forEach(item => {
+                    const id = item.id ?? item.Id ?? item.productId ?? null;
+                    if (id != null && !map.has(id) && !map.has(Number(id))) missingIds.push(id);
+                });
+                if (missingIds.length > 0) {
+                    try {
+                        // fetch missing products in parallel
+                        const fetched = await Promise.all(missingIds.map(async id => {
+                            try {
+                                const resp = await fetch('/api/products/' + encodeURIComponent(id));
+                                if (!resp.ok) return null;
+                                return await resp.json();
+                            } catch { return null; }
+                        }));
+                        fetched.forEach(p => { if (p && p.id) map.set(p.id, p); });
+                        console.debug('[checkout] fetched missing products:', fetched.filter(Boolean).length);
+                        try { const debugEl = document.getElementById('checkoutDebugPre'); if (debugEl) debugEl.textContent += 'fetched: ' + JSON.stringify(fetched.filter(Boolean).map(x=>({id:x.id,name:x.name}))) + '\n'; } catch {}
+                    } catch (e) {
+                        // ignore fetch errors; we will show fallback names
+                    }
+                }
+                console.debug('[checkout] final map keys:', Array.from(map.keys()));
+                try { const debugEl = document.getElementById('checkoutDebugPre'); if (debugEl) debugEl.textContent += 'finalKeys: ' + JSON.stringify(Array.from(map.keys())) + '\ncart: ' + JSON.stringify(cart); } catch {}
+
+                // Tạo HTML tóm tắt - Only show valid products
+                let html = '<div class="list-group">';
+                let total = 0;
+                const validCart = [];
+
+                cart.forEach(item => {
+                    // normalize item shape
+                    const id = item.id ?? item.Id ?? item.productId ?? null;
+                    const qty = item.quantity ?? item.Quantity ?? 1;
+
+                    // Validate ID
+                    if (!id || id <= 0 || isNaN(id)) {
+                        console.warn('[checkout] Skipping invalid cart item with id:', id);
+                        return; // Skip invalid items
+                    }
+
+                    const prod = map.get(id) || map.get(Number(id));
+
+                    // Only show items with valid products
+                    if (!prod) {
+                        console.warn('[checkout] Product not found for id:', id);
+                        return; // Skip items without product data
+                    }
+
+                    validCart.push(item);
+
+                    let price = parsePrice(prod.price);
+                    let subtotal = price * qty;
+                    total += subtotal;
+
+                    html += `\
+                        <div class="list-group-item d-flex gap-3 align-items-center">\
+                            <img src="${prod.image}" alt="${escapeHtml(prod.name)}" style="width:64px;height:64px;object-fit:cover;border-radius:.4rem;" decoding="async">\
+                            <div class="flex-grow-1">\
+                                <div class="fw-semibold">${escapeHtml(prod.name)}</div>\
+                                <div class="text-muted small">Số lượng: ${qty} × ${formatPrice(price)}</div>\
+                            </div>\
+                            <div class="fw-bold">${formatPrice(subtotal)}</div>\
+                        </div>`;
+                });
+                html += '</div>';
+
+                // Clean invalid items from localStorage if any were filtered
+                if (validCart.length !== cart.length) {
+                    console.warn('[checkout] Cleaned', cart.length - validCart.length, 'invalid items from cart');
+                    // Update localStorage with only valid items
+                    const keys = ['cart', 'Cart', 'shoppingCart', 'cartItems', 'userCart'];
+                    for (const k of keys) {
+                        if (localStorage.getItem(k)) {
+                            localStorage.setItem(k, JSON.stringify(validCart));
+                            break;
+                        }
+                    }
+                    // Show warning to user
+                    if (window.siteEnhancements && window.siteEnhancements.showNotification) {
+                        window.siteEnhancements.showNotification('Đã xóa ' + (cart.length - validCart.length) + ' sản phẩm không hợp lệ khỏi giỏ hàng', 'warning');
+                    }
+                }
+
+                // Hiển thị tổng
+                html += `<div class="mt-3 d-flex justify-content-between align-items-center"><div class="text-muted">Tạm tính</div><div class="fs-5 fw-bold">${formatPrice(total)}</div></div>`;
+
+                summaryEl.innerHTML = html;
+                if (placeBtn) {
+                    placeBtn.disabled = false;
+                    // hiển thị tổng ở phần payment
+                    const totalEl = document.getElementById('checkoutTotal');
+                    if (totalEl) totalEl.textContent = formatPrice(total);
+
+                    // show/hide card options
+                    const pmCard = document.getElementById('pmCard');
+                    const pmCod = document.getElementById('pmCod');
+                    const cardOptions = document.getElementById('cardOptions');
+                    function updatePaymentUI() {
+                        if (pmCard && pmCard.checked) cardOptions.style.display = '';
+                        else cardOptions.style.display = 'none';
+                    }
+                    if (pmCard) pmCard.addEventListener('change', updatePaymentUI);
+                    if (pmCod) pmCod.addEventListener('change', updatePaymentUI);
+                    updatePaymentUI();
+
+                    // Khi bấm Thanh toán: thu thập thông tin khách và giỏ, gọi POST tới /Checkout/PlaceOrder
+                    placeBtn.onclick = async function (e) {
+                        e.preventDefault();
+                        // Thu thập thông tin khách
+                        const name = document.getElementById('customerName')?.value || '';
+                        const phone = document.getElementById('customerPhone')?.value || '';
+                        const address = document.getElementById('customerAddress')?.value || '';
+
+                        // Lấy cart từ localStorage (bằng hàm robust)
+                        const cart = readCartFromStorage();
+                        if (!cart || cart.length === 0) {
+                            alert('Giỏ hàng trống.');
+                            return;
+                        }
+
+                        // payment info
+                        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'COD';
+                        const cardType = document.getElementById('cardType')?.value || null;
+                        const cardNumber = document.getElementById('cardNumber')?.value || null;
+                        const cardExpiry = document.getElementById('cardExpiry')?.value || null;
+                        const cardCvv = document.getElementById('cardCvv')?.value || null;
+
+                        // basic client-side validation (inline)
+                        function clearValidation() {
+                            ['customerName','customerPhone','customerAddress','cardNumber'].forEach(id=>{
+                                const el=document.getElementById(id); if(!el) return; el.classList.remove('is-invalid');
+                                const msg=document.getElementById('err'+id.charAt(0).toUpperCase()+id.slice(1)); if(msg) msg.textContent='';
+                            });
+                        }
+                        function showFieldError(id, message) {
+                            const el = document.getElementById(id); if (!el) return; el.classList.add('is-invalid');
+                            const msg = document.getElementById('err'+id.charAt(0).toUpperCase()+id.slice(1)); if (msg) msg.textContent = message;
+                        }
+
+                        clearValidation();
+                        let hasError = false;
+                        if (!name) { showFieldError('customerName','Vui lòng nhập họ tên.'); hasError = true; }
+                        if (!phone) { showFieldError('customerPhone','Vui lòng nhập số điện thoại.'); hasError = true; }
+                        if (!address) { showFieldError('customerAddress','Vui lòng nhập địa chỉ giao hàng.'); hasError = true; }
+                        if (paymentMethod === 'CARD') {
+                            if (!cardNumber || cardNumber.replace(/\s/g,'').length < 12) { showFieldError('cardNumber','Vui lòng nhập số thẻ hợp lệ.'); hasError = true; }
+                        }
+                        if (hasError) return;
+
+                        // normalize items to match server DTO (Id, Quantity)
+                        const normalizedItems = (cart || []).map(it => ({
+                            Id: it.id ?? it.Id ?? it.productId ?? null,
+                            Quantity: it.quantity ?? it.Quantity ?? 1
+                        })).filter(x => x.Id != null);
+
+                        const payload = {
+                            customerName: name,
+                            phone: phone,
+                            address: address,
+                            items: normalizedItems,
+                            payment: {
+                                method: paymentMethod,
+                                cardType: cardType,
+                                // do NOT send full card in real app; here only demo
+                                cardLast4: cardNumber ? String(cardNumber).replace(/\D/g,'').slice(-4) : null
+                            }
+                        };
+
+                        try {
+                            const resp = await fetch('/Checkout/PlaceOrder', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                            if (!resp.ok) {
+                                const body = await resp.json().catch(() => ({}));
+                                alert('Lỗi khi gửi đơn hàng: ' + (body.error || resp.statusText));
+                                return;
+                            }
+
+                            // Khi order thành công, xóa giỏ tạm và chuyển hướng tới trang Success
+                            localStorage.removeItem('cart');
+                            window.location.href = '/Checkout/Success';
+                        } catch (err) {
+                            console.error(err);
+                            alert('Có lỗi khi gửi đơn hàng. Vui lòng thử lại.');
+                        }
+                    });
+                }
+
+            } catch (err) {
+                console.error(err);
+                summaryEl.innerHTML = '<p class="text-danger">Không thể tóm tắt đơn hàng. Vui lòng thử lại sau.</p>';
+                if (placeBtn) placeBtn.disabled = true;
+            }
+        }
+
+        // Hàm tiện ích: parse giá từ chuỗi (vd: "21.590.000₫") -> số
+        function parsePrice(priceStr) {
+            if (!priceStr) return 0;
+            return parseInt(String(priceStr).replace(/[^0-9]/g, '')) || 0;
+        }
+
+        // Format số thành chuỗi tiền VNĐ
+        function formatPrice(price) {
+            return price.toLocaleString('vi-VN') + '₫';
+        }
+
+        // Escape HTML đơn giản để tránh XSS khi hiển thị tên/miêu tả
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text).replace(/[&<>\"'']/g, function (s) {
+                return ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                })[s];
+            });
+        }
+    </script>
+}

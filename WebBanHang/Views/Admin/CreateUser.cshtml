@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Tạo tài khoản mới";
+}
+
+<div class="container-xxl py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Tạo tài khoản mới</h4>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show auto-close">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form method="post" asp-action="CreateUser">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên hiển thị</label>
+                            <input type="text" name="displayName" class="form-control" />
+                            <small class="text-muted">Nếu để trống, sẽ lấy phần trước dấu @@ của email</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mật khẩu <span class="text-danger">*</span></label>
+                            <input type="password" name="password" class="form-control" required minlength="6" />
+                            <small class="text-muted">Tối thiểu 6 ký tự</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Vai trò</label>
+                            <select name="role" class="form-select">
+                                <option value="User">User (Người dùng thường)</option>
+                                <option value="Admin">Admin (Quản trị viên)</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Tạo tài khoản
+                            </button>
+                            <a asp-action="Users" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto close alerts after 4 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert.auto-close');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 4000);
+    </script>
+}
