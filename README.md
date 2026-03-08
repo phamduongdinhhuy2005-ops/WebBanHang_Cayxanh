@@ -1,10 +1,10 @@
-# 🌿 WebBanHang - Cây Xanh (36Store)
+# 🌿 WebBanHang - Team Cây Xanh (36Store)
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet)](https://dotnet.microsoft.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Website bán hàng trực tuyến chuyên về cây xanh và phụ kiện làm vườn, được xây dựng với **ASP.NET Core 8.0 MVC** và **Bootstrap 5**.
+Website bán hàng trực được xây dựng với **ASP.NET Core 8.0 MVC** và **Bootstrap 5**.
 
 ---
 
