@@ -2,6 +2,59 @@
 // SITE.JS - JavaScript chung cho toàn website
 // ==============================================
 
+// Global notification system
+window.siteEnhancements = window.siteEnhancements || {};
+window.siteEnhancements.showNotification = function(message, type = 'info') {
+    type = type || 'info';
+    const typeMap = {
+        'success': { icon: 'fa-check-circle', bg: 'bg-success' },
+        'error': { icon: 'fa-exclamation-circle', bg: 'bg-danger' },
+        'warning': { icon: 'fa-exclamation-triangle', bg: 'bg-warning' },
+        'info': { icon: 'fa-info-circle', bg: 'bg-info' }
+    };
+    const config = typeMap[type] || typeMap['info'];
+
+    // Create notification container if not exists
+    let container = document.getElementById('notificationContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notificationContainer';
+        container.style.cssText = 'position:fixed;top:80px;right:20px;z-index:9999;min-width:300px;max-width:400px;';
+        document.body.appendChild(container);
+    }
+
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert ${config.bg} text-white alert-dismissible fade show shadow-lg mb-2`;
+    notification.style.cssText = 'animation: slideInRight 0.3s ease;';
+    notification.innerHTML = `
+        <i class="fas ${config.icon} me-2"></i>
+        <span>${message}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+    `;
+
+    container.appendChild(notification);
+
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+
+    // Add animation keyframes if not exists
+    if (!document.getElementById('notificationStyles')) {
+        const style = document.createElement('style');
+        style.id = 'notificationStyles';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // ========== CONTACT LINKS ==========
     const contactLinks = document.querySelectorAll('.scroll-to-contact');

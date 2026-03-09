@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace WebBanHang.Models
 {
     /// <summary>
-    /// DTO ??n gi?n d�ng ?? nh?n d? li?u ??t h�ng t? client
+    /// DTO đơn giản dùng để nhận dữ liệu đặt hàng từ client
     /// </summary>
     public class OrderItemDto
     {
@@ -12,20 +12,35 @@ namespace WebBanHang.Models
     }
 
     /// <summary>
-    /// DTO cho ??n h�ng
+    /// DTO cho thông tin thanh toán
+    /// </summary>
+    public class PaymentDto
+    {
+        public string Method { get; set; } = "COD"; // COD hoặc CARD
+        public string? CardType { get; set; }
+        public string? CardLast4 { get; set; }
+    }
+
+    /// <summary>
+    /// DTO cho đơn hàng
     /// </summary>
     public class OrderDto
     {
         /// <summary>
-        /// Th�ng tin kh�ch h�ng (??n gi?n cho demo)
+        /// Thông tin khách hàng
         /// </summary>
         public required string CustomerName { get; set; }
         public required string Phone { get; set; }
         public required string Address { get; set; }
 
         /// <summary>
-        /// Danh s�ch s?n ph?m trong gi? (id + quantity)
+        /// Danh sách sản phẩm trong giỏ (id + quantity)
         /// </summary>
         public required List<OrderItemDto> Items { get; set; }
+        
+        /// <summary>
+        /// Thông tin thanh toán
+        /// </summary>
+        public PaymentDto? Payment { get; set; }
     }
 }

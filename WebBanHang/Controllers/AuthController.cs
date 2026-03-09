@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using WebBanHang.Models;
 using WebBanHang.Models.ViewModels;
 using WebBanHang.Data;
@@ -443,11 +442,11 @@ namespace WebBanHang.Controllers
 
         #endregion
 
-        #region Order History (Sample Data)
+        #region Order History
 
         /// <summary>
         /// GET: /Auth/OrderHistory
-        /// Hiển thị lịch sử mua hàng từ database
+        /// Hiển thị lịch sử mua hàng từ database (Chỉ dành cho User)
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> OrderHistory()
@@ -458,13 +457,20 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Login", new { returnUrl = "/Auth/OrderHistory" });
             }
 
+            // Chặn admin truy cập lịch sử đơn hàng
+            if (user.Role == "Admin")
+            {
+                TempData["InfoMessage"] = "Tài khoản Admin không có lịch sử mua hàng. Vui lòng sử dụng trang Quản lý đơn hàng để xem tất cả đơn hàng.";
+                return RedirectToAction("Orders", "Admin");
+            }
+
             try
             {
                 // Query lịch sử đơn hàng từ database
-                var orders = await _db.Orders
-                    .Where(o => o.UserId == user.Id)
-                    .OrderByDescending(o => o.OrderDate)
-                    .ToListAsync();
+                    var orders = await _db.Orders
+                        .Where(o => o.UserId == user.Id)
+                        .OrderBy(o => o.Id)
+                        .ToListAsync();
 
                 ViewData["UserEmail"] = user.Email;
                 return View(orders);
@@ -475,6 +481,71 @@ namespace WebBanHang.Controllers
                 TempData["ErrorMessage"] = "Có lỗi khi tải lịch sử đơn hàng.";
                 return View(new List<Order>());
             }
+        }
+        /// <summary>
+        /// POST: /Auth/DeleteOrder/{id}
+        /// Xóa đơn hàng theo id (chỉ của user hiện tại)
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+            try
+            {
+                var order = await _db.Orders.FirstOrDefaultAsync(o => o.Id == id && o.UserId == user.Id);
+                if (order == null)
+                {
+                    TempData["ErrorMessage"] = "Không tìm thấy đơn hàng hoặc bạn không có quyền xóa.";
+                    return RedirectToAction("OrderHistory");
+                }
+                _db.Orders.Remove(order);
+                await _db.SaveChangesAsync();
+                TempData["SuccessMessage"] = $"Đã xóa đơn hàng #{id} thành công.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting order {OrderId} for user {Email}", id, user.Email);
+                TempData["ErrorMessage"] = "Có lỗi khi xóa đơn hàng.";
+            }
+            return RedirectToAction("OrderHistory");
+        }
+
+        /// <summary>
+        /// POST: /Auth/DeleteAllOrders
+        /// Xóa toàn bộ đơn hàng của user hiện tại
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAllOrders()
+        {
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+            try
+            {
+                var orders = await _db.Orders.Where(o => o.UserId == user.Id).ToListAsync();
+                if (orders.Count == 0)
+                {
+                    TempData["InfoMessage"] = "Bạn không có đơn hàng nào để xóa.";
+                    return RedirectToAction("OrderHistory");
+                }
+                _db.Orders.RemoveRange(orders);
+                await _db.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Đã xóa toàn bộ lịch sử mua hàng thành công.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting all orders for user {Email}", user.Email);
+                TempData["ErrorMessage"] = "Có lỗi khi xóa lịch sử mua hàng.";
+            }
+            return RedirectToAction("OrderHistory");
         }
 
         #endregion

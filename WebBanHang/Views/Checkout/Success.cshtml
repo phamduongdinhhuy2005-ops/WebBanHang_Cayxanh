@@ -1,16 +1,100 @@
+@model WebBanHang.Models.Order
 @{
     ViewData["Title"] = "Đặt hàng thành công";
 }
 
 <section class="py-5">
     <div class="container-xxl">
-        @await Html.PartialAsync("_Breadcrumb")
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4 text-center">
-                <h2 class="fw-bold">Cảm ơn! Đơn hàng của bạn đã được gửi</h2>
-                <p class="text-muted">Chúng tôi đã nhận đơn hàng và sẽ liên hệ để xác nhận thông tin.</p>
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Quay về trang chủ</a>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5 text-center">
+                        <!-- Success Icon -->
+                        <div class="mb-4">
+                            <div class="success-checkmark mx-auto">
+                                <div class="check-icon">
+                                    <span class="icon-line line-tip"></span>
+                                    <span class="icon-line line-long"></span>
+                                    <div class="icon-circle"></div>
+                                    <div class="icon-fix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thank You Message -->
+                        <h1 class="fw-bold mb-3 text-success">Đặt hàng thành công!</h1>
+                        <p class="lead mb-4">Cảm ơn bạn đã mua sắm tại 36Store</p>
+
+                        <!-- Order Info -->
+                        <div class="card bg-light border-0 mb-4">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="text-muted mb-1">Mã đơn hàng</div>
+                                        <div class="fw-bold fs-5 text-primary">#@Model.Id</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-muted mb-1">Ngày đặt</div>
+                                        <div class="fw-semibold">@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-muted mb-1">Người nhận</div>
+                                        <div class="fw-semibold">@Model.CustomerName</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-muted mb-1">Tổng tiền</div>
+                                        <div class="fw-bold fs-5 text-danger">@Model.TotalAmount.ToString("N0")₫</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Status -->
+                        <div class="alert alert-info border-0 mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Trạng thái:</strong> @Model.Status
+                            <br>
+                            <small>Chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng</small>
+                        </div>
+
+                        <!-- Email Notification -->
+                        <p class="text-muted mb-4">
+                            <i class="fas fa-envelope me-2"></i>
+                            Thông tin chi tiết đơn hàng đã được gửi đến email: <strong>@Model.CustomerEmail</strong>
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                            <a asp-controller="Auth" asp-action="OrderHistory" class="btn btn-primary btn-lg">
+                                <i class="fas fa-history me-2"></i>Xem lịch sử đơn hàng
+                            </a>
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-shopping-bag me-2"></i>Tiếp tục mua sắm
+                            </a>
+                        </div>
+
+                        <!-- Customer Support -->
+                        <div class="mt-5 pt-4 border-top">
+                            <h6 class="mb-3">Cần hỗ trợ?</h6>
+                            <div class="d-flex flex-column flex-md-row gap-3 justify-content-center text-muted">
+                                <div>
+                                    <i class="fas fa-phone text-primary me-2"></i>
+                                    <a href="tel:0363636360" class="text-decoration-none">0363-636-360</a>
+                                </div>
+                                <div>
+                                    <i class="fas fa-envelope text-primary me-2"></i>
+                                    <a href="mailto:support@36store.vn" class="text-decoration-none">support@36store.vn</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/checkout-success.css" />
+}
+

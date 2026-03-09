@@ -127,5 +127,25 @@
                 bsAlert.close();
             });
         }, 4000);
+
+        // Tự động tính giá bán khi nhập giá gốc hoặc % giảm giá
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceInput = document.querySelector('input[name="Price"]');
+            const originalInput = document.querySelector('input[name="OriginalPrice"]');
+            const discountInput = document.querySelector('input[name="Discount"]');
+            function calcPrice() {
+                let goc = Number((originalInput.value||'').replace(/[^\d]/g, ''));
+                if (isNaN(goc)) goc = 0;
+                let percent = parseFloat(discountInput.value) || 0;
+                if (goc > 0 && percent >= 0 && percent <= 100) {
+                    let ban = Math.round(goc * (1 - percent/100));
+                    priceInput.value = ban.toLocaleString('vi-VN') + ' VND';
+                }
+            }
+            if (originalInput && discountInput && priceInput) {
+                originalInput.addEventListener('input', calcPrice);
+                discountInput.addEventListener('input', calcPrice);
+            }
+        });
     </script>
 }

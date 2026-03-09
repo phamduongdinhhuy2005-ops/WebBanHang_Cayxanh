@@ -100,7 +100,7 @@ namespace WebBanHang.Controllers
             ViewData["TotalUsers"] = totalUsers;
 
             var users = await query
-                .OrderByDescending(u => u.CreatedAt)
+                .OrderBy(x => x.Id) // Sắp xếp theo ID tăng dần
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -540,32 +540,41 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["Title"] = "Quản lý đơn hàng";
-            ViewData["Status"] = status;
-            ViewData["CurrentPage"] = page;
-
-            var query = _db.Orders.Include(o => o.User).AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(status))
+            try
             {
-                query = query.Where(o => o.Status == status);
+                ViewData["Title"] = "Quản lý đơn hàng";
+                ViewData["Status"] = status;
+                ViewData["CurrentPage"] = page;
+
+                var query = _db.Orders.Include(o => o.User).AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(status))
+                {
+                    query = query.Where(o => o.Status == status);
+                }
+
+                // Pagination
+                const int pageSize = 5;
+                var totalOrders = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling(totalOrders / (double)pageSize);
+
+                ViewData["TotalPages"] = totalPages;
+                ViewData["TotalOrders"] = totalOrders;
+
+                var orders = await query
+                    .OrderBy(o => o.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return View(orders);
             }
-
-            // Pagination
-            const int pageSize = 5;
-            var totalOrders = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalOrders / (double)pageSize);
-
-            ViewData["TotalPages"] = totalPages;
-            ViewData["TotalOrders"] = totalOrders;
-
-            var orders = await query
-                .OrderByDescending(o => o.OrderDate)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            return View(orders);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading orders");
+                TempData["ErrorMessage"] = "Có lỗi khi tải danh sách đơn hàng.";
+                return View(new List<Order>());
+            }
         }
 
         /// <summary>
